@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>erniez28 — Freelance Shopware 6 Developer</title>
+<meta name="description" content="Sascha Ernst, Freelance Shopware 6 Developer aus Hagen. Vollstack seit über 10 Jahren, spezialisiert auf Shopware 6, Middleware und sichere E-Commerce-Systeme.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: oklch(0.145 0.008 55);
+    --bg-card: oklch(0.185 0.012 55);
+    --bg-deep: oklch(0.12 0.006 55);
+    --ink: oklch(0.82 0.012 70);
+    --ink-dim: oklch(0.62 0.015 65);
+    --ink-faint: oklch(0.48 0.012 60);
+    --accent: oklch(0.62 0.19 35);
+    --accent-hover: oklch(0.68 0.20 35);
+    --green: oklch(0.52 0.08 155);
+    --green-soft: oklch(0.72 0.10 155);
+    --rust: oklch(0.55 0.12 30);
+    --rust-soft: oklch(0.68 0.14 30);
+    --amber: oklch(0.72 0.12 75);
+    --border: oklch(0.82 0.012 70 / 0.10);
+    --border-strong: oklch(0.82 0.012 70 / 0.16);
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: 'General Sans', system-ui, -apple-system, sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html:focus-within{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    line-height:1.5;
+  }
+  a{color:var(--accent);text-decoration:none}
+  a:hover{color:var(--accent-hover)}
+  ::selection{background:var(--accent);color:var(--bg)}
+  img{max-width:100%;height:auto;display:block}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  @keyframes blink{0%,48%{opacity:1}49%,100%{opacity:0}}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(76,122,94,.55)}70%{box-shadow:0 0 0 9px rgba(76,122,94,0)}100%{box-shadow:0 0 0 0 rgba(76,122,94,0)}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  @keyframes typeCursor{0%,48%{opacity:1}49%,100%{opacity:0}}
+
+  .cursor-blink{
+    display:inline-block;width:9px;height:1.05em;
+    background:var(--accent);
+    animation:blink 1.05s step-end infinite;
+    vertical-align:text-bottom;
+    margin-left:2px;
+  }
+  .cursor-blink--green{background:var(--green)}
+
+  .noise{
+    position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(rgba(255,107,69,0.045) 1px,transparent 1px);
+    background-size:38px 38px;
+    opacity:.6;
+  }
+  .glow{
+    position:fixed;top:-30%;left:50%;width:900px;height:900px;
+    transform:translateX(-50%);z-index:0;pointer-events:none;
+    background:radial-gradient(circle,rgba(255,107,69,0.10),transparent 62%);
+    filter:blur(20px);
+  }
+
+  /* ===== NAV ===== */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;
+    backdrop-filter:blur(10px);
+    background:rgba(21,17,13,0.72);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-logo{
+    font-family:var(--mono);font-weight:700;font-size:15px;color:var(--ink);
+    letter-spacing:.5px;
+  }
+  .nav-links{
+    display:flex;align-items:center;gap:26px;
+  }
+  .nav-menu{
+    display:flex;gap:22px;font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);
+  }
+  .nav-menu a{color:var(--ink-faint);transition:color .2s}
+  .nav-menu a:hover{color:var(--ink)}
+  .nav-cta{
+    font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--accent);
+    border:1px solid rgba(255,107,69,0.45);padding:8px 15px;border-radius:7px;
+    transition:background .2s,color .2s,border-color .2s;
+  }
+  .nav-cta:hover{background:rgba(255,107,69,0.12);color:var(--accent-hover);border-color:var(--accent)}
+
+  /* ===== MAIN LAYOUT ===== */
+  main{
+    position:relative;z-index:1;
+    max-width:1080px;margin:0 auto;padding:0 28px;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    min-height:100vh;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:120px 0 80px;gap:34px;
+  }
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:10px;align-self:flex-start;
+    font-family:var(--mono);font-size:12.5px;color:var(--green);
+    background:rgba(76,122,94,0.09);border:1px solid rgba(76,122,94,0.25);
+    padding:7px 13px;border-radius:100px;
+  }
+  .hero-badge .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--green);
+    animation:pulse 2.1s infinite;
+  }
+  .hero h1{
+    font-family:var(--mono);font-weight:800;
+    font-size:clamp(38px,6.4vw,76px);
+    line-height:1.02;letter-spacing:-1.5px;margin:0;color:var(--ink);
+    text-wrap:balance;
+  }
+  .hero h1 .accent{color:var(--accent)}
+  .hero-lede{
+    max-width:600px;font-size:clamp(16px,2vw,19px);line-height:1.55;
+    color:var(--ink-dim);margin:0;
+  }
+
+  /* ===== TERMINAL ===== */
+  .terminal{
+    width:100%;max-width:620px;
+    background:var(--bg-deep);
+    border:1px solid var(--border-strong);
+    border-radius:12px;
+    font-family:var(--mono);font-size:13.5px;line-height:1.5;
+    box-shadow:0 24px 60px -20px rgba(0,0,0,0.6);
+    overflow:hidden;
+  }
+  .terminal-bar{
+    display:flex;align-items:center;gap:7px;
+    padding:11px 14px;
+    border-bottom:1px solid var(--border);
+    background:var(--bg-card);
+  }
+  .terminal-bar .dot{width:11px;height:11px;border-radius:50%}
+  .terminal-bar .dot.r{background:var(--rust)}
+  .terminal-bar .dot.y{background:var(--amber)}
+  .terminal-bar .dot.g{background:var(--green)}
+  .terminal-bar .title{font-size:12px;color:var(--ink-faint);margin-left:8px}
+  .terminal-body{
+    padding:16px 16px 18px;
+    color:var(--ink);
+    min-height:150px;
+  }
+  .terminal-line{white-space:pre-wrap;word-break:break-word;min-height:1.5em}
+  .terminal-prompt{color:var(--green)}
+  .terminal-output{color:var(--ink)}
+  .terminal-output--dim{color:var(--ink-faint)}
+  .terminal-output--accent{color:var(--accent)}
+
+  /* ===== CTA BUTTONS ===== */
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px}
+  .btn{
+    font-family:var(--mono);font-size:14px;font-weight:600;
+    padding:14px 22px;border-radius:9px;
+    transition:background .2s,color .2s,border-color .2s,transform .2s;
+    display:inline-block;
+  }
+  .btn--primary{
+    color:var(--bg);background:var(--accent);
+  }
+  .btn--primary:hover{background:var(--accent-hover);color:var(--bg)}
+  .btn--ghost{
+    color:var(--ink);border:1px solid var(--border-strong);
+  }
+  .btn--ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* ===== SECTIONS ===== */
+  section{
+    padding:70px 0;
+    border-top:1px solid var(--border);
+  }
+  .section-label{
+    font-family:var(--mono);font-size:13px;color:var(--ink-faint);
+    margin-bottom:22px;
+  }
+  .section-title{
+    font-family:var(--mono);font-weight:700;
+    font-size:clamp(24px,3.6vw,34px);
+    letter-spacing:-.5px;color:var(--ink);
+    margin:0 0 8px;
+  }
+  .section-desc{
+    color:var(--ink-faint);font-size:15px;max-width:560px;margin:0 0 30px;
+  }
+
+  /* ===== STACK BADGES ===== */
+  .stack-grid{display:flex;flex-wrap:wrap;gap:12px}
+  .stack-badge{
+    font-family:var(--mono);font-size:14px;color:var(--ink);
+    background:var(--bg-card);border:1px solid var(--border);
+    padding:11px 17px;border-radius:8px;
+    transition:border-color .2s,color .2s;
+  }
+  .stack-badge:hover{border-color:rgba(255,107,69,0.4);color:var(--ink)}
+  .stack-badge .prefix{color:var(--green)}
+
+  /* ===== CHANGELOG ===== */
+  .changelog-box{
+    background:var(--bg-deep);
+    border:1px solid var(--border-strong);
+    border-radius:12px;
+    overflow:hidden;
+  }
+  .changelog-bar{
+    display:flex;align-items:center;gap:7px;
+    padding:12px 16px;
+    border-bottom:1px solid var(--border);
+    background:var(--bg-card);
+  }
+  .changelog-bar .dot{width:11px;height:11px;border-radius:50%}
+  .changelog-bar .dot.r{background:var(--rust)}
+  .changelog-bar .dot.y{background:var(--amber)}
+  .changelog-bar .dot.g{background:var(--green)}
+  .changelog-bar .title{
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-left:8px;
+  }
+  .cl-row{
+    border-bottom:1px solid var(--border);
+  }
+  .cl-row:last-child{border-bottom:none}
+  .cl-head{
+    display:flex;align-items:flex-start;gap:14px;
+    padding:15px 18px;cursor:pointer;
+    font-family:var(--mono);
+    transition:background .2s;
+    user-select:none;
+  }
+  .cl-head:hover{background:rgba(255,107,69,0.05)}
+  .cl-date{color:var(--ink-faint);font-size:12.5px;flex:none;padding-top:1px}
+  .cl-tag{
+    flex:none;font-size:11.5px;font-weight:500;
+    padding:2px 8px;border-radius:5px;
+  }
+  .cl-title{flex:1;font-size:13.5px;color:var(--ink);font-family:var(--sans)}
+  .cl-caret{
+    color:var(--ink-faint);font-size:12px;flex:none;
+    transition:transform .2s;
+  }
+  .cl-row.open .cl-caret{transform:rotate(90deg)}
+  .cl-diff{
+    padding:2px 18px 18px 18px;
+    font-family:var(--mono);font-size:13px;line-height:1.65;
+    display:none;
+  }
+  .cl-row.open .cl-diff{display:block}
+  .diff-line{
+    padding:2px 10px;border-radius:3px;
+    white-space:pre-wrap;
+  }
+  .diff-line .sign{opacity:.65}
+  .diff-line.ctx{color:var(--ink-faint)}
+  .diff-line.add{color:var(--green-soft);background:rgba(76,122,94,0.12)}
+  .diff-line.del{color:var(--rust-soft);background:rgba(168,90,63,0.12)}
+  .cl-link{
+    display:inline-block;margin-top:10px;
+    font-size:12.5px;color:var(--accent);
+  }
+
+  /* ===== CERTS ===== */
+  .certs-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;
+  }
+  .cert-card{
+    display:block;background:var(--bg-card);
+    border:1px solid var(--border);border-radius:12px;padding:22px;
+    transition:border-color .25s,transform .25s;
+  }
+  .cert-card:hover{border-color:rgba(255,107,69,0.4);transform:translateY(-3px)}
+  .cert-badge{
+    display:flex;align-items:center;gap:9px;margin-bottom:14px;
+  }
+  .cert-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+  .cert-badge .label{
+    font-family:var(--mono);font-size:11.5px;color:var(--green);
+  }
+  .cert-name{
+    font-family:var(--sans);font-weight:600;font-size:18px;color:var(--ink);
+    margin-bottom:6px;
+  }
+  .cert-issuer{font-size:13.5px;color:var(--ink-faint);margin-bottom:16px}
+  .cert-id{font-family:var(--mono);font-size:12px;color:var(--accent)}
+
+  /* ===== BIO ===== */
+  .bio-text{max-width:680px;display:flex;flex-direction:column;gap:18px}
+  .bio-text p{margin:0;font-size:16px;line-height:1.65;color:var(--ink-dim)}
+  .bio-text p:first-child{font-size:clamp(18px,2.3vw,22px);line-height:1.5;color:var(--ink)}
+  .bio-text .highlight{color:var(--accent)}
+
+  /* ===== CONTACT ===== */
+  .contact-title{
+    font-family:var(--mono);font-weight:700;
+    font-size:clamp(26px,4vw,40px);
+    letter-spacing:-.5px;color:var(--ink);
+    margin:0 0 26px;text-wrap:balance;
+  }
+  .contact-links{
+    display:flex;flex-wrap:wrap;gap:28px;
+    font-family:var(--mono);font-size:13px;color:var(--ink-faint);
+    padding-top:26px;border-top:1px solid var(--border);
+  }
+  .contact-links a{color:var(--ink-faint);transition:color .2s}
+  .contact-links a:hover{color:var(--ink)}
+  .contact-note{
+    font-family:var(--mono);font-size:11px;color:var(--ink-faint);
+    margin:26px 0 0;opacity:.7;
+  }
+
+  /* ===== FEATURE PAIRS ===== */
+  .feature-pair{
+    display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;
+    padding:40px 0;
+  }
+  .feature-pair:nth-child(even){direction:rtl}
+  .feature-pair:nth-child(even)>*{direction:ltr}
+  .feature-img{
+    border-radius:12px;overflow:hidden;
+    border:1px solid var(--border-strong);
+    box-shadow:0 20px 50px -15px rgba(0,0,0,0.5);
+  }
+  .feature-img img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover}
+  .feature-content h3{
+    font-family:var(--mono);font-weight:700;font-size:22px;
+    color:var(--ink);margin:0 0 12px;
+  }
+  .feature-content p{
+    font-size:15px;line-height:1.65;color:var(--ink-dim);margin:0 0 10px;
+  }
+  .feature-caption{
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint);
+    margin-top:16px;
+  }
+  .feature-caption .accent-word{color:var(--accent)}
+
+  /* ===== GALLERY BAND ===== */
+  .gallery-band{
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;
+    padding:40px 0;
+  }
+  .gallery-item{
+    border-radius:12px;overflow:hidden;
+    border:1px solid var(--border-strong);
+    box-shadow:0 16px 40px -12px rgba(0,0,0,0.4);
+  }
+  .gallery-item img,.gallery-item video{
+    width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;
+  }
+  .gallery-item--video{position:relative;background:var(--bg-deep)}
+  .gallery-item--video video{width:100%;height:100%;object-fit:cover}
+  .gallery-item--video .play-hint{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(0,0,0,0.3);opacity:0;transition:opacity .3s;
+    font-family:var(--mono);font-size:12px;color:var(--ink);
+  }
+  .gallery-item--video:hover .play-hint{opacity:1}
+
+  /* ===== NUMBERED ROWS ===== */
+  .numbered-rows{display:flex;flex-direction:column;gap:0}
+  .num-row{
+    display:flex;gap:24px;align-items:baseline;
+    padding:24px 0;border-bottom:1px solid var(--border);
+  }
+  .num-row:last-child{border-bottom:none}
+  .num-idx{
+    font-family:var(--mono);font-size:13px;color:var(--ink-faint);
+    flex:none;width:40px;
+  }
+  .num-content h4{
+    font-family:var(--mono);font-weight:700;font-size:16px;
+    color:var(--ink);margin:0 0 6px;
+  }
+  .num-content p{
+    font-size:14px;line-height:1.6;color:var(--ink-dim);margin:0;
+    max-width:640px;
+  }
+
+  /* ===== FOOTER ===== */
+  footer{
+    position:relative;z-index:1;
+    padding:60px 28px 40px;
+    border-top:1px solid var(--border);
+    margin-top:40px;
+  }
+  .footer-inner{max-width:1080px;margin:0 auto}
+  .footer-big{
+    font-family:var(--mono);font-weight:800;
+    font-size:clamp(28px,5vw,52px);
+    color:var(--ink);margin:0 0 24px;
+    letter-spacing:-1px;
+  }
+  .footer-big .accent{color:var(--accent)}
+  .footer-meta{
+    display:flex;flex-wrap:wrap;gap:24px;
+    font-family:var(--mono);font-size:12px;color:var(--ink-faint);
+    margin-bottom:32px;
+  }
+  .footer-meta a{color:var(--ink-faint)}
+  .footer-meta a:hover{color:var(--ink)}
+  .footer-legal{
+    font-family:var(--mono);font-size:11px;color:var(--ink-faint);
+    opacity:.6;
+  }
+
+  /* ===== MODAL (ViveQode) ===== */
+  .modal-overlay{
+    position:fixed;inset:0;z-index:100;
+    background:rgba(0,0,0,0.72);
+    backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+    opacity:0;pointer-events:none;
+    transition:opacity .3s ease;
+  }
+  .modal-overlay.active{opacity:1;pointer-events:auto}
+  .modal-box{
+    background:var(--bg-card);
+    border:1px solid var(--border-strong);
+    border-radius:16px;
+    max-width:480px;width:100%;
+    padding:32px;
+    position:relative;
+    transform:translateY(16px) scale(0.98);
+    transition:transform .3s cubic-bezier(.2,.7,.2,1);
+    box-shadow:0 32px 80px -20px rgba(0,0,0,0.7);
+  }
+  .modal-overlay.active .modal-box{transform:none}
+  .modal-close{
+    position:absolute;top:16px;right:16px;
+    background:none;border:none;color:var(--ink-faint);
+    font-size:20px;line-height:1;padding:4px;
+    transition:color .2s;
+  }
+  .modal-close:hover{color:var(--ink)}
+  .modal-eyebrow{
+    font-family:var(--mono);font-size:11px;color:var(--green);
+    text-transform:uppercase;letter-spacing:1.5px;
+    margin-bottom:12px;
+  }
+  .modal-title{
+    font-family:var(--mono);font-weight:700;font-size:24px;
+    color:var(--ink);margin:0 0 12px;
+  }
+  .modal-text{
+    font-size:15px;line-height:1.65;color:var(--ink-dim);
+    margin:0 0 24px;
+  }
+  .modal-cta{
+    display:inline-block;
+    font-family:var(--mono);font-size:14px;font-weight:600;
+    color:var(--bg);background:var(--accent);
+    padding:12px 20px;border-radius:9px;
+    transition:background .2s;
+  }
+  .modal-cta:hover{background:var(--accent-hover)}
+
+  /* ===== REVEAL ANIMATION ===== */
+  [data-reveal]{
+    opacity:0;transform:translateY(26px);
+    transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  [data-reveal].revealed{opacity:1;transform:none}
+
+  /* Fallback: wenn JS/IntersectionObserver nicht greift, zeige Inhalte nach 1.5s */
+  @media (scripting: none) {
+    [data-reveal]{opacity:1;transform:none}
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:768px){
+    nav{padding:14px 20px}
+    .nav-menu{display:none}
+    main{padding:0 20px}
+    .hero{padding:100px 0 60px;gap:28px}
+    .feature-pair{grid-template-columns:1fr;gap:20px}
+    .feature-pair:nth-child(even){direction:ltr}
+    .gallery-band{grid-template-columns:1fr;gap:12px}
+    .cl-head{flex-wrap:wrap;gap:8px}
+    .cl-title{width:100%;order:3}
+    .certs-grid{grid-template-columns:1fr}
+    section{padding:50px 0}
+    footer{padding:40px 20px 32px}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:.01ms!important;
+      animation-iteration-count:1!important;
+      transition-duration:.01ms!important;
+    }
+    html{scroll-behavior:auto}
+    [data-reveal]{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+<div class="glow"></div>
+
+<nav>
+  <a href="#top" class="nav-logo">erniez28<span class="cursor-blink cursor-blink--green"></span></a>
+  <div class="nav-links">
+    <div class="nav-menu">
+      <a href="#stack">stack</a>
+      <a href="#changelog">changelog</a>
+      <a href="#certs">zertifikate</a>
+      <a href="#bio">whoami</a>
+    </div>
+    <a href="#contact" class="nav-cta">termin&nbsp;buchen</a>
+  </div>
+</nav>
+
+<main id="top">
+
+  <!-- 1. HERO -->
+  <section class="hero" style="border-top:none">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      open_for_projects&nbsp;=&nbsp;true
+    </div>
+    <h1>Freelance <span class="accent">Shopware&nbsp;6</span> Developer für Agenturen.</h1>
+    <p class="hero-lede">Sauberer, wartbarer Code im Subcontracting — von individuellen Erweiterungen über Middleware bis zum stabilen Live-Betrieb. Vollstack seit über 10 Jahren, Schwerpunkt Shopware&nbsp;6.</p>
+
+    <div class="terminal" id="hero-terminal">
+      <div class="terminal-bar">
+        <span class="dot r"></span>
+        <span class="dot y"></span>
+        <span class="dot g"></span>
+        <span class="title">zsh — erniez28</span>
+      </div>
+      <div class="terminal-body" id="terminal-body">
+        <!-- JS füllt das Terminal -->
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="#contact" class="btn btn--primary">kontakt aufnehmen →</a>
+      <a href="#changelog" class="btn btn--ghost">changelog ansehen</a>
+    </div>
+  </section>
+
+  <!-- 2. THESIS LINE (Tech-Stack als These) -->
+  <section id="stack" data-reveal>
+    <div class="section-label">// tech-stack</div>
+    <div class="stack-grid" id="stack-grid">
+      <!-- JS füllt Badges -->
+    </div>
+  </section>
+
+  <!-- 3. FEATURE PAIRS (g1.jpg + g2.jpg) -->
+  <section data-reveal>
+    <div class="section-label">// arbeitsplatz</div>
+    <div class="feature-pair">
+      <div class="feature-img">
+        <img src="assets/g1.jpg" alt="Dunkler, hochwertiger Entwickler-Arbeitsplatz mit Monitor, Schreibtischlampe, Notebook und Projektmappen" loading="lazy">
+      </div>
+      <div class="feature-content">
+        <h3>Der Arbeitsplatz als Statement</h3>
+        <p>Kein Stockfoto, keine Kulisse. Das ist der reale Arbeitsplatz, an dem Shopware-Plugins, Middleware und sichere E-Commerce-Systeme entstehen.</p>
+        <p>Jedes Projekt beginnt hier — mit Kaffee, klarem Kopf und der Überzeugung, dass guter Code auch gut aussehen darf.</p>
+        <div class="feature-caption">material: <span class="accent-word">walnuss</span> + <span class="accent-word">stahl</span></div>
+      </div>
+    </div>
+    <div class="feature-pair">
+      <div class="feature-img">
+        <img src="assets/g2.jpg" alt="Extreme Makroaufnahme von Walnussholz, Metallkante und technischer Skizze auf Papier" loading="lazy">
+      </div>
+      <div class="feature-content">
+        <h3>Detailverliebt, aber pragmatisch</h3>
+        <p>Ob eine technische Skizze auf Papier oder ein sauberer Git-Diff — die Arbeit ist erst fertig, wenn sie im Live-Betrieb hält.</p>
+        <p>Keine halben Sachen, keine „quick and dirty"-Lösungen, die nächstes Jahr teuer werden.</p>
+        <div class="feature-caption">focus: <span class="accent-word">präzision</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. GALLERY BAND (g3.jpg / middle.mp4 / g1.jpg) -->
+  <section data-reveal>
+    <div class="section-label">// einblick</div>
+    <div class="gallery-band">
+      <div class="gallery-item">
+        <img src="assets/g3.jpg" alt="Premium-Arbeitsplatz mit schwarzem Monitor, warmer Schreibtischlampe und Pflanze" loading="lazy">
+      </div>
+      <div class="gallery-item gallery-item--video">
+        <video autoplay muted loop playsinline poster="assets/g1.jpg">
+          <source src="assets/middle.mp4" type="video/mp4">
+        </video>
+        <div class="play-hint">▶ middle.mp4 (Platzhalter)</div>
+      </div>
+      <div class="gallery-item">
+        <img src="assets/g1.jpg" alt="Entwickler-Arbeitsplatz mit Monitor, Tastatur und Projektmappen" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. NUMBERED ROWS (Changelog) -->
+  <section id="changelog" data-reveal>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px">
+      <div class="section-label" style="margin-bottom:0">// changelog</div>
+      <div style="font-family:var(--mono);font-size:12px;color:var(--ink-faint)">git log --oneline · tail -f</div>
+    </div>
+    <h2 class="section-title">Referenzen &amp; Momentum</h2>
+    <p class="section-desc">Ein lebendiges Log aus Projekten, Plugins und Zertifikaten. Zeile anklicken für den Diff.</p>
+
+    <div class="changelog-box">
+      <div class="changelog-bar">
+        <span class="dot r"></span>
+        <span class="dot y"></span>
+        <span class="dot g"></span>
+        <span class="title">~/erniez28/changelog.log</span>
+      </div>
+      <div id="changelog-entries">
+        <!-- JS füllt Einträge -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. CERTS -->
+  <section id="certs" data-reveal>
+    <div class="section-label">// zertifikate --verified</div>
+    <div class="certs-grid">
+      <a href="https://coursera.org/verify/professional-cert/HCHP1KRB0IHY" target="_blank" rel="noopener" class="cert-card">
+        <div class="cert-badge">
+          <span class="dot"></span>
+          <span class="label">verified · coursera</span>
+        </div>
+        <div class="cert-name">Google Cybersecurity</div>
+        <div class="cert-issuer">Professional Certificate · 2025</div>
+        <div class="cert-id">verify › HCHP1KRB0IHY</div>
+      </a>
+      <a href="https://coursera.org/verify/professional-cert/N65BH8UF9K73" target="_blank" rel="noopener" class="cert-card">
+        <div class="cert-badge">
+          <span class="dot"></span>
+          <span class="label">verified · coursera</span>
+        </div>
+        <div class="cert-name">Google IT Support</div>
+        <div class="cert-issuer">Professional Certificate · 2025</div>
+        <div class="cert-id">verify › N65BH8UF9K73</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 7. BIO -->
+  <section id="bio" data-reveal>
+    <div class="section-label">// whoami</div>
+    <div class="bio-text">
+      <p>Ich bin <span class="highlight">Sascha „Ernie" Ernst</span> — Vollstack-Entwickler aus Hagen, seit über 10 Jahren in Web und IT unterwegs, heute spezialisiert auf Shopware&nbsp;6.</p>
+      <p>Vom Bäckerhandwerk über den autodidaktischen Quereinstieg bis zur eigenen Firma: Ich baue Systeme, die im Live-Betrieb halten — individuelle Plugins, sichere Middleware und performante Shops. Zuletzt habe ich meine Basis mit den Google-Zertifikaten in IT-Support und Cybersecurity verbreitert.</p>
+      <p>Als Freelancer arbeite ich 100&nbsp;% remote und gehe Projekte penibel und verlässlich an — vom ersten Ticket bis zum letzten Merge.</p>
+    </div>
+  </section>
+
+  <!-- 8. CTA / CONTACT -->
+  <section id="contact" data-reveal>
+    <div class="section-label">// kontakt</div>
+    <h2 class="contact-title">Lass uns dein nächstes Shopware-Projekt besprechen.</h2>
+    <div class="cta-row" style="margin-bottom:44px">
+      <a href="mailto:kontakt@erniez28.de" class="btn btn--primary">kontakt@erniez28.de</a>
+      <a href="#" class="btn btn--ghost">termin buchen (Cal.com folgt)</a>
+    </div>
+    <div class="contact-links">
+      <a href="https://github.com/see-coding" target="_blank" rel="noopener">github/see-coding</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener">linkedin/sascha-ernst</a>
+      <span>Hagen, DE · 100% remote</span>
+    </div>
+    <p class="contact-note">Hosting &amp; Betrieb für Bestandskunden ebenfalls möglich.</p>
+  </section>
+
+</main>
+
+<!-- 9. FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-big">erniez28<span class="accent">_</span></div>
+    <div class="footer-meta">
+      <span>Freelance Shopware 6 Developer</span>
+      <span>Hagen, Deutschland</span>
+      <a href="mailto:kontakt@erniez28.de">kontakt@erniez28.de</a>
+      <a href="https://github.com/see-coding" target="_blank" rel="noopener">github</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener">linkedin</a>
+    </div>
+    <div class="footer-legal">
+      &copy; 2026 Sascha Ernst · Alle Inhalte unterliegen dem deutschen Urheberrecht.
+    </div>
+  </div>
+</footer>
+
+<!-- VIVEQODE MODAL -->
+<div class="modal-overlay" id="vq-modal" role="dialog" aria-modal="true" aria-labelledby="vq-title" aria-hidden="true">
+  <div class="modal-box">
+    <button class="modal-close" id="vq-close" aria-label="Schließen">×</button>
+    <div class="modal-eyebrow">Empfehlung</div>
+    <h3 class="modal-title" id="vq-title">ViveQode</h3>
+    <p class="modal-text">
+      Dynamische QR-Codes und Smart Links für dein Business. Erstelle, verwalte und tracke QR-Codes in Echtzeit — mit Analytics, Team-Features und API-Zugang.
+    </p>
+    <a href="https://viveqode.com" target="_blank" rel="noopener" class="modal-cta">viveqode.com entdecken ↗</a>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ===== CONFIG ===== */
+  var REDUCE = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var IS_VQ_LINK = window.location.pathname === '/vq-link' || window.location.pathname === '/vq-link/';
+
+  /* ===== TERMINAL BOOT ===== */
+  var terminalBody = document.getElementById('terminal-body');
+  var script = [
+    { type: 'cmd', prompt: 'erniez28@hagen ~ %', text: 'whoami' },
+    { type: 'out', text: 'Sascha „Ernie" Ernst', color: 'accent' },
+    { type: 'out', text: 'Freelance Shopware 6 Developer · Vollstack seit 10+ Jahren', color: 'dim' },
+    { type: 'cmd', prompt: 'erniez28@hagen ~ %', text: './status --now' },
+    { type: 'out', text: '● open_for_projects = true · remote · Hagen, DE', color: 'green' },
+  ];
+
+  function renderLine(item, showCursor) {
+    var div = document.createElement('div');
+    div.className = 'terminal-line';
+    if (item.prompt) {
+      var p = document.createElement('span');
+      p.className = 'terminal-prompt';
+      p.textContent = item.prompt + ' ';
+      div.appendChild(p);
+    }
+    var t = document.createElement('span');
+    t.className = 'terminal-output' + (item.color ? ' terminal-output--' + item.color : '');
+    t.textContent = item.text || '';
+    div.appendChild(t);
+    if (showCursor) {
+      var c = document.createElement('span');
+      c.className = 'cursor-blink';
+      div.appendChild(c);
+    }
+    return div;
+  }
+
+  function typeTerminal(idx) {
+    if (idx >= script.length) {
+      // Final prompt with blinking cursor
+      terminalBody.appendChild(renderLine({ prompt: 'erniez28@hagen ~ %', text: '' }, true));
+      return;
+    }
+    var item = script[idx];
+    if (item.type === 'cmd') {
+      var line = renderLine({ prompt: item.prompt, text: '' }, true);
+      terminalBody.appendChild(line);
+      var textSpan = line.querySelector('.terminal-output');
+      var j = 0;
+      function typeChar() {
+        if (j <= item.text.length) {
+          textSpan.textContent = item.text.slice(0, j);
+          j++;
+          setTimeout(typeChar, 52);
+        } else {
+          line.querySelector('.cursor-blink')?.remove();
+          setTimeout(function(){ typeTerminal(idx + 1); }, 200);
+        }
+      }
+      typeChar();
+    } else {
+      terminalBody.appendChild(renderLine(item, false));
+      setTimeout(function(){ typeTerminal(idx + 1); }, 240);
+    }
+  }
+
+  if (REDUCE) {
+    script.forEach(function(item){ terminalBody.appendChild(renderLine(item, false)); });
+    terminalBody.appendChild(renderLine({ prompt: 'erniez28@hagen ~ %', text: '' }, true));
+  } else {
+    typeTerminal(0);
+  }
+
+  /* ===== STACK BADGES ===== */
+  var stack = ['Shopware 6', 'PHP', 'Twig', 'Docker', 'n8n', 'React', 'Python'];
+  var stackGrid = document.getElementById('stack-grid');
+  stack.forEach(function(tech){
+    var badge = document.createElement('span');
+    badge.className = 'stack-badge';
+    badge.innerHTML = '<span class="prefix">$</span>&nbsp;' + tech;
+    stackGrid.appendChild(badge);
+  });
+
+  /* ===== CHANGELOG ===== */
+  var entries = [
+    {
+      date: '2025-12-15', tag: 'cert', tagColor: '#4C7A5E', tagBg: 'rgba(76,122,94,0.14)',
+      title: 'Google Cybersecurity Professional Certificate',
+      diff: [
+        ['ctx','8 Kurse · SIEM, IDS, Linux, SQL, Python für Security'],
+        ['add','neuer Skill-Tree: defensive security & threat detection'],
+        ['add','sicherheitsbewusstes Denken in jedes Projekt integriert'],
+      ],
+      link: 'https://coursera.org/verify/professional-cert/HCHP1KRB0IHY',
+      linkLabel: 'verify HCHP1KRB0IHY'
+    },
+    {
+      date: '2025-11-20', tag: 'shipped', tagColor: '#FF6B45', tagBg: 'rgba(255,107,69,0.13)',
+      title: 'AintLikeYouClothing — Shopware-6-Shop im Live-Betrieb',
+      diff: [
+        ['ctx','Shopware 6 · individuelle Erweiterungen & Backend-Funktionen'],
+        ['add','Zahlungs-, Versand- & Bestellprozess-Integration'],
+        ['add','laufende Performance-Optimierung im Live-Betrieb'],
+        ['del','legacy-Bottlenecks im Checkout entfernt'],
+      ],
+      link: 'https://aintlikeyouclothing.com',
+      linkLabel: 'aintlikeyouclothing.com'
+    },
+    {
+      date: '2025-10-02', tag: 'shipped', tagColor: '#FF6B45', tagBg: 'rgba(255,107,69,0.13)',
+      title: 'Shopware-PlentyONE Connector: sichere Middleware live',
+      diff: [
+        ['ctx','Python · PostgreSQL · REST-API mit Token-Auth'],
+        ['add','Middleware-Dashboard für stabile Datensynchronisation'],
+        ['add','auf Skalierbarkeit & Ausfallsicherheit ausgelegt'],
+      ],
+      link: null, linkLabel: null
+    },
+    {
+      date: '2025-08-06', tag: 'cert', tagColor: '#4C7A5E', tagBg: 'rgba(76,122,94,0.14)',
+      title: 'Google IT Support Professional Certificate',
+      diff: [
+        ['ctx','Netzwerke, Betriebssysteme, Systemadministration, Security-Grundlagen'],
+        ['add','solides Infrastruktur-Fundament unter dem Dev-Stack'],
+      ],
+      link: 'https://coursera.org/verify/professional-cert/N65BH8UF9K73',
+      linkLabel: 'verify N65BH8UF9K73'
+    },
+    {
+      date: '2025-06-30', tag: 'insight', tagColor: '#B79BC4', tagBg: 'rgba(183,155,196,0.13)',
+      title: 'OTN — One-Time-Note (Eigenprojekt, Technik-Showcase)',
+      diff: [
+        ['ctx','selbstzerstörende Ende-zu-Ende-verschlüsselte Notizen'],
+        ['add','AES-256-GCM vollständig im Browser'],
+        ['add','Schlüssel lebt nur im URL-Fragment — Server sieht nie Klartext'],
+        ['ctx','kein Kundenprojekt — reines Eigenprojekt'],
+      ],
+      link: null, linkLabel: null
+    },
+    {
+      date: '2025-05-14', tag: 'plugin', tagColor: '#C9A15E', tagBg: 'rgba(201,161,94,0.14)',
+      title: 'SW6-Plugin „Landingpage Visibility Switch" veröffentlicht',
+      diff: [
+        ['ctx','eigenständige Shopware-6-Erweiterung'],
+        ['add','Header / Footer / ToTop-Button je Seite steuerbar'],
+        ['add','saubere Konfigurationslogik im Admin'],
+      ],
+      link: null, linkLabel: null
+    },
+  ];
+
+  var changelogContainer = document.getElementById('changelog-entries');
+  entries.forEach(function(e){
+    var row = document.createElement('div');
+    row.className = 'cl-row';
+
+    var head = document.createElement('div');
+    head.className = 'cl-head';
+    head.setAttribute('role','button');
+    head.setAttribute('tabindex','0');
+    head.setAttribute('aria-expanded','false');
+
+    var date = document.createElement('span');
+    date.className = 'cl-date';
+    date.textContent = e.date;
+
+    var tag = document.createElement('span');
+    tag.className = 'cl-tag';
+    tag.style.color = e.tagColor;
+    tag.style.background = e.tagBg;
+    tag.textContent = e.tag;
+
+    var title = document.createElement('span');
+    title.className = 'cl-title';
+    title.textContent = e.title;
+
+    var caret = document.createElement('span');
+    caret.className = 'cl-caret';
+    caret.textContent = '▸';
+
+    head.appendChild(date);
+    head.appendChild(tag);
+    head.appendChild(title);
+    head.appendChild(caret);
+
+    var diff = document.createElement('div');
+    diff.className = 'cl-diff';
+    e.diff.forEach(function(d){
+      var line = document.createElement('div');
+      line.className = 'diff-line ' + d[0];
+      var sign = d[0] === 'add' ? '+' : d[0] === 'del' ? '-' : ' ';
+      line.innerHTML = '<span class="sign">' + sign + '</span> ' + d[1];
+      diff.appendChild(line);
+    });
+    if (e.link) {
+      var link = document.createElement('a');
+      link.className = 'cl-link';
+      link.href = e.link;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.textContent = e.linkLabel + ' ↗';
+      diff.appendChild(link);
+    }
+
+    head.addEventListener('click', function(){
+      var isOpen = row.classList.toggle('open');
+      head.setAttribute('aria-expanded', isOpen);
+    });
+    head.addEventListener('keydown', function(ev){
+      if (ev.key === 'Enter' || ev.key === ' ') {
+        ev.preventDefault();
+        head.click();
+      }
+    });
+
+    row.appendChild(head);
+    row.appendChild(diff);
+    changelogContainer.appendChild(row);
+  });
+
+  /* ===== SCROLL REVEAL ===== */
+  var revealEls = document.querySelectorAll('[data-reveal]');
+  if (!REDUCE && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) {
+          en.target.classList.add('revealed');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('revealed'); });
+  }
+
+  /* ===== VIVEQODE MODAL ===== */
+  var modal = document.getElementById('vq-modal');
+  var closeBtn = document.getElementById('vq-close');
+
+  function openModal() {
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    sessionStorage.setItem('vq-modal-shown','1');
+  }
+
+  if (IS_VQ_LINK && !sessionStorage.getItem('vq-modal-shown')) {
+    // Slight delay so page loads first
+    setTimeout(openModal, 800);
+  }
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(ev){
+    if (ev.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function(ev){
+    if (ev.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+
+  /* ===== SMOOTH SCROLL (Lenis-like lightweight) ===== */
+  // Native smooth scroll is enabled via CSS. For enhanced inertia we could add Lenis,
+  // but keeping it lightweight per performance requirements.
+
+})();
+</script>
+</body>
+</html>
