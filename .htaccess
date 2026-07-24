@@ -1,0 +1,58 @@
+# erniez28.de — Apache / Nginx-htaccess-Fallback-Konfiguration
+# Diese Datei in das Document-Root der Domain hochladen (neben index.html)
+
+# ── Zeichencodierung ─────────────────────────────────────────────
+AddDefaultCharset utf-8
+
+# ── /vq-link → Startseite ausliefern (kein Redirect!) ────────────
+# Das JavaScript in index.html prüft den Pfad und öffnet das Modal.
+# Wichtig: internes Rewrite, KEIN [R]-Flag, damit die URL /vq-link bleibt.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # /vq-link (mit oder ohne Slash) → index.html
+    RewriteRule ^vq-link/?$ /index.html [L,NC]
+</IfModule>
+
+# ── Kompression ──────────────────────────────────────────────────
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript
+    AddOutputFilterByType DEFLATE application/json image/svg+xml
+</IfModule>
+
+# ── Browser-Cache ────────────────────────────────────────────────
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # HTML: kurz cachen (Inhalte ändern sich)
+    ExpiresByType text/html "access plus 1 hour"
+
+    # Bilder & Videos: lang cachen (liegen in /assets, ändern sich selten)
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png  "access plus 1 month"
+    ExpiresByType video/mp4  "access plus 1 month"
+
+    # Fonts (lokal eingebundene, falls später ergänzt)
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# Cache-Header für Assets explizit
+<IfModule mod_headers.c>
+    <FilesMatch "\.(jpe?g|png|mp4)$">
+        Header set Cache-Control "public, max-age=2592000, immutable"
+    </FilesMatch>
+</IfModule>
+
+# ── Sicherheit ───────────────────────────────────────────────────
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Verzeichnislisting verbieten
+Options -Indexes
+
+# Standard-Indexdatei
+DirectoryIndex index.html
