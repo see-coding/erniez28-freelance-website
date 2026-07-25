@@ -1,0 +1,115 @@
+.whoami {
+  padding: 64px 0;
+}
+
+.whoami__grid {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.whoami__text {
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.whoami__text p {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--ink-dim);
+}
+.whoami__lead {
+  font-size: clamp(18px, 2.2vw, 22px) !important;
+  line-height: 1.5 !important;
+  color: var(--ink) !important;
+}
+.whoami__name { color: var(--accent); }
+
+/* Profil-Card */
+.whoami__card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  box-shadow: 0 20px 50px -18px oklch(0 0 0 / 0.55);
+}
+.whoami__photo {
+  aspect-ratio: 4 / 3;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, var(--accent-a12), transparent 70%),
+    var(--bg-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border);
+}
+.whoami__photo-mono {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+.whoami__card-body { padding: 18px; }
+.whoami__card-name {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+}
+.whoami__card-role {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  margin: 4px 0 16px;
+}
+.whoami__skills {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.whoami__skill { display: flex; flex-direction: column; gap: 4px; }
+.whoami__skill dt {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-dim);
+  letter-spacing: 0.4px;
+}
+.whoami__skill dd {
+  margin: 0;
+  height: 3px;
+  background: var(--bg-raise);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.whoami__skill dd span {
+  display: block;
+  height: 100%;
+  background: var(--green);
+  border-radius: 2px;
+}
+.whoami__card-meta {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-faint);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.whoami__status {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2.1s infinite;
+}
+
+@media (max-width: 860px) {
+  .whoami__grid { grid-template-columns: 1fr; gap: 28px; }
+  .whoami__card { max-width: 420px; }
+}

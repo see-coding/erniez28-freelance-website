@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build Output
+dist/
+
+# Alte Dateien (statische Entwürfe, Briefings, alte Assets)
+_oldStuff/
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log

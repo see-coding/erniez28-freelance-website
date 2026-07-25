@@ -1,0 +1,72 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Terminal-Log hinter dem Balken */
+.preloader__terminal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 8vw;
+  font-family: var(--mono);
+  font-size: clamp(11px, 1.4vw, 14px);
+  color: var(--ink);
+  opacity: 0.28;
+  pointer-events: none;
+  user-select: none;
+  /* oben und unten weich ausblenden */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 22%, black 78%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 22%, black 78%, transparent);
+}
+.preloader__line {
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Zentrum: Logo + Balken + Prozent */
+.preloader__center {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  width: min(420px, 76vw);
+}
+.preloader__logo {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink);
+  letter-spacing: 0.5px;
+}
+.preloader__bar {
+  width: 100%;
+  height: 3px;
+  background: var(--bg-raise);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.preloader__fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.08s linear;
+}
+.preloader__pct {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 1px;
+}

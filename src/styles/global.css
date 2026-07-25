@@ -1,0 +1,112 @@
+/* ============================================
+   erniez28.de — Global Styles
+   ============================================ */
+@import './tokens.css';
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+::selection { background: var(--accent); color: var(--bg); }
+img { max-width: 100%; height: auto; display: block; }
+button { font-family: inherit; cursor: pointer; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Shared Layout */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* Section-Label im Mono-Kommentar-Stil */
+.section-label {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin-bottom: 18px;
+}
+
+/* Blink-Cursor */
+@keyframes blink {
+  0%, 48% { opacity: 1; }
+  49%, 100% { opacity: 0; }
+}
+.cursor-blink {
+  display: inline-block;
+  width: 9px;
+  height: 1.05em;
+  background: var(--accent);
+  animation: blink 1.05s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+.cursor-blink--green { background: var(--green); }
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 oklch(0.52 0.08 155 / 0.55); }
+  70% { box-shadow: 0 0 0 9px oklch(0.52 0.08 155 / 0); }
+  100% { box-shadow: 0 0 0 0 oklch(0.52 0.08 155 / 0); }
+}
+
+/* Buttons */
+.btn {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 14px 22px;
+  border-radius: 9px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background .2s, color .2s, border-color .2s, transform .2s;
+  white-space: nowrap;
+}
+.btn--primary {
+  color: var(--bg);
+  background: var(--accent);
+}
+.btn--primary:hover { background: var(--accent-hover); color: var(--bg); }
+.btn--ghost {
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--border-strong);
+}
+.btn--ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+}

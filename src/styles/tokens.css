@@ -1,0 +1,51 @@
+/* ============================================
+   erniez28.de — Design Tokens
+   OKLCH only. Kein reines Schwarz/Weiß.
+   ============================================ */
+:root {
+  /* Flächen */
+  --bg: oklch(0.145 0.008 55);
+  --bg-card: oklch(0.185 0.012 55);
+  --bg-deep: oklch(0.12 0.006 55);
+  --bg-raise: oklch(0.22 0.014 55);
+
+  /* Text */
+  --ink: oklch(0.82 0.012 70);
+  --ink-bright: oklch(0.92 0.010 70);
+  --ink-dim: oklch(0.62 0.015 65);
+  --ink-faint: oklch(0.48 0.012 60);
+
+  /* Akzente */
+  --accent: oklch(0.62 0.19 35);
+  --accent-hover: oklch(0.68 0.20 35);
+  --green: oklch(0.52 0.08 155);
+  --green-soft: oklch(0.72 0.10 155);
+  --rust: oklch(0.55 0.12 30);
+  --rust-soft: oklch(0.68 0.14 30);
+  --amber: oklch(0.72 0.12 75);
+  --lilac: oklch(0.72 0.08 310);
+
+  /* Ränder */
+  --border: oklch(0.82 0.012 70 / 0.10);
+  --border-strong: oklch(0.82 0.012 70 / 0.16);
+
+  /* Alphas der Akzente */
+  --accent-a12: oklch(0.62 0.19 35 / 0.12);
+  --accent-a45: oklch(0.62 0.19 35 / 0.45);
+  --green-a12: oklch(0.52 0.08 155 / 0.12);
+  --green-a25: oklch(0.52 0.08 155 / 0.25);
+
+  /* Typo */
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: 'General Sans', system-ui, -apple-system, sans-serif;
+
+  /* Rhythmus */
+  --nav-h: 64px;
+  --container: 1120px;
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 16px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
