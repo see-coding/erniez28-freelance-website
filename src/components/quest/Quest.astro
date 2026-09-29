@@ -1,0 +1,101 @@
+---
+import { worlds, stations } from '../../data/quest.js'
+import { ernie, kid, block, blockUsed, props } from '../../data/sprites.js'
+import { spriteToSvg } from '../../lib/pixel.js'
+import { site } from '../../data/e28.js'
+
+const vars = (obj, prefix) => Object.entries(obj).map(([k, v]) => `--${prefix}-${k}:${v}`).join(';')
+const worldStyle = (w) => `${vars(w.palette, 'w')};--w-bg:${w.palette.bg};--w-bg2:${w.palette.bg2};--w-ground:${w.palette.ground};--w-ink:${w.palette.ink}`
+const frames = ['stand', 'walkA', 'walkB', 'jump']
+const heroSvg = [
+  ...frames.map((f) => spriteToSvg(kid[f], { className: `kid-${f}` })),
+  ...frames.map((f) => spriteToSvg(ernie[f], { className: `ernie-${f}` })),
+].join('')
+const blockFresh = spriteToSvg(block, { className: 'fresh' })
+const blockDone = spriteToSvg(blockUsed, { className: 'used' })
+const worldData = worlds.map((w, i) => ({ ...w, index: i + 1, stations: stations.filter((s) => s.world === w.id) }))
+const clientWorlds = worldData.map((w) => ({ id: w.id, name: w.name, years: w.years, sprite: w.sprite, figure: w.figure, index: w.index }))
+---
+<section class="quest" id="quest" data-quest aria-labelledby="quest-title">
+  <h2 id="quest-title" class="sr-only">Meine Laufbahn, Station für Station</h2>
+  <div class="q-stage" data-stage>
+    <div class="q-track" data-track>
+      <div class="q-intro" aria-hidden="true"></div>
+
+      {worldData.map((w) => (
+        <div class={`q-world pat-${w.pattern}`} data-world={w.id} data-index={w.index} style={worldStyle(w)}>
+          <div class="q-world__gate">
+            <h2>World {w.index} · {w.name}<small>{w.years}</small></h2>
+          </div>
+          <div class="q-world__stations">
+            {w.stations.map((s) => (
+              <article class="q-st" data-station data-year={s.year} data-title={s.title} data-loot={s.loot} data-prop={s.prop}>
+                <div class="q-st__art" aria-hidden="true">
+                  <div class="q-st__label">{s.year}</div>
+                  <div class="q-st__block" set:html={blockFresh + blockDone}></div>
+                  <div class="q-st__prop" style={`--ph:${props[s.prop].length}`} set:html={spriteToSvg(props[s.prop])}></div>
+                </div>
+                <div class="q-st__text">
+                  <h3><span>{s.year}</span> · {s.title}</h3>
+                  <p>{s.text}</p>
+                  <p class="q-st__loot">+ Item: {s.loot}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <div class="q-end" data-end>
+        <div class="q-end__box">
+          <div class="q-end__over">Continue?</div>
+          <div class="q-end__count" data-count-down aria-hidden="true">9</div>
+          <p>Level 2026 ist offen. Das nächste Kapitel schreiben wir vielleicht zusammen.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="/projekt-besprechen/">Projekt besprechen <span class="arrow" aria-hidden="true">↗</span></a>
+            <a class="btn" href={site.cal} target="_blank" rel="noopener">Erstgespräch buchen <span class="arrow" aria-hidden="true">↗</span></a>
+            <a class="btn" href="#quest-start" data-restart>↺ Nochmal spielen</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-scan" aria-hidden="true"></div>
+
+    <div class="q-hero" data-hero data-sprite="kid" data-frame="stand" aria-hidden="true">
+      <div class="q-hero__shadow"></div>
+      <div class="q-hero__body" set:html={heroSvg}></div>
+    </div>
+
+    <div class="q-hud" aria-hidden="true">
+      <div class="q-hud__box q-hud__world">
+        <b data-hud-world>World 1</b>
+        <span data-hud-name>Kinderzimmer</span>
+        <div class="q-hud__xp"><i data-hud-xp></i></div>
+      </div>
+      <div class="q-hud__box q-hud__year">
+        <span>Jahr</span>
+        <b data-hud-year>1983</b>
+        <div class="q-hud__levels" data-levels>
+          {worldData.map((w) => <button type="button" data-level={w.index} title={`World ${w.index}: ${w.name}`}>{w.index}</button>)}
+        </div>
+        <button class="q-hud__sound" type="button" data-sound>♪ sound: aus</button>
+      </div>
+    </div>
+
+    <div class="q-inv" aria-hidden="true"><span class="q-inv__label" data-inv-label>Items 0/{stations.length}</span></div>
+
+    <div class="q-dialog is-empty" aria-hidden="true" data-dialog>
+      <div class="q-dialog__head"><span data-dialog-title></span><span data-dialog-loot></span></div>
+      <div class="q-dialog__text" data-dialog-text></div>
+      <span class="q-dialog__more">▼</span>
+    </div>
+
+    <div class="q-banner" aria-hidden="true" data-banner><div><span data-banner-title>World 1</span><small data-banner-sub></small></div></div>
+  </div>
+</section>
+
+<script is:inline type="application/json" id="quest-data" set:html={JSON.stringify({ worlds: clientWorlds, props: Object.fromEntries(Object.entries(props).map(([k, v]) => [k, spriteToSvg(v)])) })}></script>
+<script>
+  import '../../scripts/quest.js'
+</script>

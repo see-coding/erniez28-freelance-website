@@ -1,0 +1,57 @@
+---
+import Site from '../../layouts/Site.astro'
+import PageHero from '../../components/ui/PageHero.astro'
+import CtaBlock from '../../components/ui/CtaBlock.astro'
+import { serviceDetails } from '../../data/pages.js'
+import { process, services } from '../../data/e28.js'
+import { service, graph } from '../../lib/schema.js'
+
+const title = 'Shopware-Leistungen: Plugins, Storefront, Schnittstellen, Wartung | Sascha Ernst'
+const description = 'Was ich als Freelance Shopware 6 Entwickler übernehme: Plugin-Entwicklung, Storefront und Updates auf 6.7, Schnittstellen sowie Wartung und Notfall-Hilfe. Für Agenturen und Shopbetreiber im DACH-Raum.'
+const jsonLd = graph(service, { '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Startseite', item: 'https://erniez28.de/' },
+  { '@type': 'ListItem', position: 2, name: 'Leistungen', item: 'https://erniez28.de/leistungen/' },
+] })
+---
+<Site title={title} description={description} jsonLd={jsonLd} current="leistungen">
+  <PageHero crumbs={[{ label: 'leistungen' }]} title="Vier Dinge," titleEm="die ich richtig gut kann." lede="Ich bin kein Generalist, der alles ein bisschen macht. Ich entwickle Shopware 6: Plugins, Storefronts, Schnittstellen und den Betrieb danach. Für Agenturen als Verstärkung, für Shopbetreiber direkt." />
+
+  <section class="section">
+    <div class="shell">
+      <div class="services">
+        {serviceDetails.map((s, i) => (
+          <article class="card service" data-reveal style={`--d:${i * 90}`}>
+            <div class="card__in">
+              <div class="service__top"><span class="glyph" aria-hidden="true">{s.glyph}</span><span class="mono" style="font-size:.72rem;color:var(--ink-faint)">0{i + 1}</span></div>
+              <h2 style="font-size:clamp(1.3rem,2.2vw,1.6rem)">{s.nav}</h2>
+              <p>{s.lede}</p>
+              <div class="chips">{services[i].chips.map((c) => <span class="chip">{c}</span>)}</div>
+              <a class="service__more" href={`/leistungen/${s.slug}/`}>Details ansehen <span class="arrow" aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="shell">
+      <div class="section-head">
+        <div><p class="label" data-reveal>ablauf</p><h2 data-split>So arbeiten wir zusammen.</h2></div>
+        <p data-reveal>Du sprichst direkt mit dem, der den Code schreibt. Ohne Vertriebsschleife und ohne Übergabe an Dritte.</p>
+      </div>
+      <div class="steps" data-steps>
+        <div class="steps__line" aria-hidden="true"><i></i></div>
+        {process.map((s, i) => (
+          <div class="step is-lit" data-reveal style={`--d:${i * 120}`}>
+            <div class="step__n">{s.step}</div>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBlock />
+</Site>

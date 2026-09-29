@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+.astro/
 
 # Build Output
 dist/
@@ -16,3 +17,32 @@ _oldStuff/
 
 # Logs
 *.log
+
+# Local credentials
+.env
+.env.*
+!.env.example
+
+# Local design builds and research
+website-output/
+
+# Private Unterlagen und interne Planung (das Repository ist öffentlich)
+assets/new-content/
+assets/erniez-story/
+assets/generated-source/
+assets/cool-website/
+assets/cool-website SKILL*
+seo/
+ABNAHME-*.md
+RECHTSTEXTE-DNS-ANGABEN.md
+NEUGESTALTUNG-PLAN.md
+COOL-WEBSITE-SETUP.md
+SEO-PLAN.md
+SEO-REPORT.md
+SEO-RESEARCH.md
+
+# Lokale Tool-Konfigurationen
+.agents/
+.codex/
+.cool-website.json
+Vorschau starten.command

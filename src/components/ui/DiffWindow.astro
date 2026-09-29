@@ -1,0 +1,18 @@
+---
+interface Props { file: string; diff: [string, string][] }
+const { file, diff } = Astro.props
+const adds = diff.filter(([t]) => t === 'add').length
+const dels = diff.filter(([t]) => t === 'del').length
+---
+<div class="code" data-code data-reveal>
+  <div class="code__bar"><i></i><i></i><i></i><span>{file}</span><span class="code__stat"><span class="plus">+{adds}</span> <span class="minus">−{dels}</span></span></div>
+  <div class="code__body">
+    {diff.map(([type, text], n) => (
+      <div class={`diff diff--${type}`} data-line style={`--i:${n}`}>
+        <span class="diff__n">{n + 1}</span>
+        <span class="diff__s">{type === 'add' ? '+' : type === 'del' ? '−' : ''}</span>
+        <span class="diff__t">{text}</span>
+      </div>
+    ))}
+  </div>
+</div>

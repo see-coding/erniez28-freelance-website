@@ -1,0 +1,148 @@
+---
+import '../styles/e28.css'
+import { site } from '../data/e28.js'
+
+interface Props {
+  title: string
+  description: string
+  canonical?: string
+  image?: string
+  noindex?: boolean
+  jsonLd?: object | object[]
+  ogType?: string
+  loader?: boolean
+  current?: string
+}
+
+const { title, description, canonical, image = '/images/ernie-og.jpg', noindex = false, jsonLd, ogType = 'website', loader = false, current = '' } = Astro.props
+const url = canonical || new URL(Astro.url.pathname, Astro.site).toString()
+const ld = (Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : []).map((doc) => JSON.stringify(doc).replace(/</g, '\\u003c'))
+const nav = [
+  { href: '/leistungen/', label: 'leistungen', id: 'leistungen' },
+  { href: '/portfolio/', label: 'projekte', id: 'projekte' },
+  { href: '/whoami/', label: 'whoami', id: 'whoami' },
+  { href: '/journal/', label: 'journal', id: 'journal' },
+  { href: '/projekt-besprechen/', label: 'kontakt', id: 'kontakt' },
+]
+const bootLines = [
+  ['$ boot erniez28.de --env=production', ''],
+  ['  > backofen vorheizen ........', 'ok'],
+  ['  > resolving modules .........', 'ok'],
+  ['  > compiling shopware stack ..', 'ok'],
+  ['  > verifying certificates ....', 'ok'],
+  ['  > tracker gefunden ..........', '0'],
+  ['$ whoami → sascha ernst', ''],
+  ['  > role: freelance sw6 developer', ''],
+]
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large'} />
+    <link rel="canonical" href={url} />
+    <meta name="theme-color" content="#161210" />
+    <meta name="author" content="Sascha Ernst" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/general-sans-400.woff2" as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:site_name" content="erniez28 · Sascha Ernst" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {ld.map((doc) => <script type="application/ld+json" set:html={doc} />)}
+    <script is:inline define:vars={{ loader }}>
+      const root = document.documentElement
+      root.classList.add('js')
+      const calm = matchMedia('(prefers-reduced-motion: reduce)').matches
+      let internal = false
+      try { internal = !!document.referrer && new URL(document.referrer).origin === location.origin } catch {}
+      if (loader && !calm && !internal) root.classList.add('booting')
+      setTimeout(() => document.querySelector('.hero')?.classList.add('is-live'), 4200)
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Zum Inhalt springen</a>
+    <div class="progress" aria-hidden="true"></div>
+
+    {loader && (
+      <div class="loader" aria-hidden="true" data-loader>
+        <div class="loader__log">{bootLines.map(([text, status]) => <div>{text}{status && <span class="ok"> {status}</span>}</div>)}</div>
+        <div class="loader__center">
+          <div class="loader__word">erniez28<span class="cursor"></span></div>
+          <div class="loader__bar"><div class="loader__fill"></div></div>
+          <div class="loader__pct">0%</div>
+        </div>
+        <div class="loader__skip">klick oder taste zum überspringen</div>
+      </div>
+    )}
+
+    <header class="site-header" data-header>
+      <div class="site-header__inner">
+        <div class="header-left">
+          <a class="header-book" href={site.cal} target="_blank" rel="noopener">termin buchen</a>
+          <span class="status-pill"><span class="dot"></span>open_for_projects = {String(site.openForProjects)}</span>
+        </div>
+        <a class="wordmark" href="/" aria-label="erniez28, zur Startseite">erniez28<span class="cursor"></span></a>
+        <nav class="nav" aria-label="Hauptnavigation">
+          {nav.map((item) => <a href={item.href} aria-current={current === item.id ? 'page' : undefined}>{item.label}</a>)}
+        </nav>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-btn>menu</button>
+      </div>
+    </header>
+    <div class="mobile-menu" id="mobile-menu" data-menu>
+      {nav.map((item) => <a href={item.href}><span>$ cd</span> {item.label}</a>)}
+      <a href={site.cal} target="_blank" rel="noopener"><span>$</span> termin</a>
+      <p>{site.email} · Hagen · remote</p>
+    </div>
+
+    <main id="main"><slot /></main>
+
+    <footer class="footer">
+      <div class="shell">
+        <div class="footer__top">
+          <div>
+            <div class="footer__big">erniez28<span>_</span></div>
+            <p>Freelance Shopware 6 Entwickler für Agenturen und Shopbetreiber. Aus Hagen, remote im ganzen DACH-Raum.</p>
+          </div>
+          <div>
+            <h3>// seiten</h3>
+            <ul>
+              <li><a href="/leistungen/">Leistungen</a></li>
+              <li><a href="/portfolio/">Projekte</a></li>
+              <li><a href="/whoami/">WHOAMI · Ernies Quest</a></li>
+              <li><a href="/journal/">Journal</a></li>
+              <li><a href="/qualifikationen/">Qualifikationen</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>// kontakt</h3>
+            <ul>
+              <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+              <li><a href={site.cal} target="_blank" rel="noopener">Erstgespräch buchen</a></li>
+              <li><a href={site.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
+              <li><a href={site.github} target="_blank" rel="noopener">GitHub</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <span>© {new Date().getFullYear()} Sascha Ernst · <a href="/impressum/">Impressum</a> · <a href="/datenschutz/">Datenschutz</a></span>
+          <span>0 Tracker · 0 Cookies · gebaut mit Astro</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      import '../scripts/site.js'
+    </script>
+    <slot name="scripts" />
+  </body>
+</html>

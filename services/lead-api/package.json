@@ -1,0 +1,12 @@
+{
+  "name": "erniez28-lead-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": { "start": "node --env-file=.env src/index.js" },
+  "dependencies": {
+    "better-sqlite3": "13.0.3",
+    "nodemailer": "10.0.8"
+  }
+}

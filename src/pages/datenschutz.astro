@@ -1,0 +1,35 @@
+---
+import Site from '../layouts/Site.astro'
+import PageHero from '../components/ui/PageHero.astro'
+import { site } from '../data/e28.js'
+// ENTWURF: Verantwortliche Stelle, Hoster, Speicherfristen vor dem Livegang ergänzen (RECHTSTEXTE-DNS-ANGABEN.md).
+---
+<Site title="Datenschutz | erniez28 · Sascha Ernst" description="Datenschutzhinweise für erniez28.de." noindex={true}>
+  <PageHero crumbs={[{ label: 'datenschutz' }]} title="Datenschutz" titleEm="in verständlicher Sprache." />
+  <section class="section">
+    <div class="shell prose">
+      <p class="note" style="margin-top:0;border:0;padding:0">Entwurf. Hosting-Anbieter und Speicherfristen werden vor der Veröffentlichung ergänzt und geprüft.</p>
+
+      <h2>Kurz gesagt</h2>
+      <p>Diese Website verwendet keine Cookies, kein Tracking, keine Werbung und keine eingebetteten Inhalte von Dritten. Schriften und Bilder werden vom eigenen Server geladen. Daten verarbeite ich nur, wenn Du mir ausdrücklich eine Anfrage schickst.</p>
+
+      <h2>Verantwortlicher</h2>
+      <p>Sascha Ernst, SEE Service Group, Franklinstr. 18, 58089 Hagen<br />Telefon: +49 2331 695 71 72, E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+
+      <h2>Aufruf der Website</h2>
+      <p>Beim Aufruf verarbeitet der Webserver technisch notwendige Verbindungsdaten wie IP-Adresse, Zeitpunkt, aufgerufene Seite und Browserkennung, um die Seite auszuliefern und die Sicherheit zu gewährleisten. [Hosting-Anbieter, Speicherort und Aufbewahrungsdauer der Server-Logs ergänzen.] Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
+
+      <h2>Speicherung im Browser</h2>
+      <p>Die Website speichert keine Daten in Deinem Browser, weder Cookies noch Local Storage. Ob die Ladeanimation angezeigt wird, entscheidet die Seite allein anhand der Frage, ob Du von einer anderen Website kommst.</p>
+
+      <h2>Projektbrief und Rückmeldebitte</h2>
+      <p>Den Projektbrief kannst Du ausfüllen, ohne dass Daten übertragen werden. Erst wenn Du ausdrücklich um Rückmeldung bittest, werden Name (optional), E-Mail-Adresse, gegebenenfalls Telefonnummer und Deine Angaben zum Projekt verschlüsselt an meinen Kontakt-Dienst übertragen und per E-Mail an mich weitergeleitet. Der Dienst speichert die Anfrage nur verschlüsselt bis zur erfolgreichen Zustellung und löscht den Inhalt danach. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertrags). [Aufbewahrungsdauer der E-Mails und Mail-Anbieter ergänzen.]</p>
+
+      <h2>E-Mail und Terminbuchung</h2>
+      <p>Schreibst Du mir direkt eine E-Mail, verarbeite ich Deine Angaben zur Beantwortung. Die Terminbuchung erfolgt über einen Link zu meiner eigenen Cal.com-Instanz unter cal.erniez28.de. Dort gelten die dort angegebenen Hinweise. [Betrieb, Kalenderanbindung und Speicherfristen von Cal.com ergänzen.]</p>
+
+      <h2>Deine Rechte</h2>
+      <p>Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Außerdem kannst Du Dich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel bei der Landesbeauftragten für Datenschutz und Informationsfreiheit Nordrhein-Westfalen.</p>
+    </div>
+  </section>
+</Site>

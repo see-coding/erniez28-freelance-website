@@ -1,0 +1,19 @@
+---
+import Site from '../layouts/Site.astro'
+import { ernie } from '../data/sprites.js'
+import { spriteToSvg } from '../lib/pixel.js'
+const sprite = spriteToSvg(ernie.stand)
+---
+<Site title="404 · Seite nicht gefunden | erniez28" description="Diese Seite gibt es nicht." noindex={true}>
+  <section class="gameover">
+    <div>
+      <Fragment set:html={sprite} />
+      <h1>Game over<span>404 · Seite nicht gefunden</span></h1>
+      <p>Diesen Level gibt es nicht. Vielleicht ein alter Link oder ein Tippfehler. Kein Problem, Du hast noch Leben übrig.</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="/">Continue: Startseite <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="btn" href="/whoami/">Ernies Quest spielen</a>
+      </div>
+    </div>
+  </section>
+</Site>

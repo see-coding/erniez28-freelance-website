@@ -1,0 +1,62 @@
+---
+import Site from '../../layouts/Site.astro'
+import PageHero from '../../components/ui/PageHero.astro'
+import CtaBlock from '../../components/ui/CtaBlock.astro'
+import DiffWindow from '../../components/ui/DiffWindow.astro'
+import { caseStudies, serviceDetails } from '../../data/pages.js'
+import { cases } from '../../data/e28.js'
+import { graph } from '../../lib/schema.js'
+
+export function getStaticPaths() {
+  return caseStudies.map((c) => ({ params: { slug: c.slug }, props: { c } }))
+}
+const { c } = Astro.props
+const base = cases.find((x) => x.id === c.caseId)
+const svc = serviceDetails.find((s) => s.slug === c.service)
+const url = `https://erniez28.de/portfolio/${c.slug}/`
+const others = caseStudies.filter((o) => o.slug !== c.slug)
+const jsonLd = graph(
+  { '@type': 'Article', headline: base.title, description: c.metaDescription, url, author: { '@id': 'https://erniez28.de/#person' }, publisher: { '@id': 'https://erniez28.de/#person' }, inLanguage: 'de-DE', datePublished: '2026-09-29', keywords: base.tags.join(', ') },
+  { '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Startseite', item: 'https://erniez28.de/' },
+    { '@type': 'ListItem', position: 2, name: 'Projekte', item: 'https://erniez28.de/portfolio/' },
+    { '@type': 'ListItem', position: 3, name: base.title, item: url },
+  ] },
+)
+---
+<Site title={c.metaTitle} description={c.metaDescription} jsonLd={jsonLd} current="projekte" ogType="article">
+  <PageHero crumbs={[{ href: '/portfolio/', label: 'projekte' }, { label: 'fallstudie' }]} title={base.title} lede={c.context}>
+    <div class="meta-row" data-reveal>{c.facts.map(([k, v]) => <span>{k}: <b>{v}</b></span>)}</div>
+  </PageHero>
+
+  <section class="section">
+    <div class="shell split">
+      <article class="prose">
+        {c.sections.map(([h, p]) => (
+          <>
+            <h2 data-reveal>{h}</h2>
+            <p data-reveal>{p}</p>
+          </>
+        ))}
+        <h2 data-reveal>Der Code dazu</h2>
+        <DiffWindow file={base.file} diff={base.diff} />
+        <div class="chips" data-reveal>{base.tags.map((t) => <span class="chip">{t}</span>)}</div>
+        {c.link && <p data-reveal><a href={c.link.href} target="_blank" rel="noopener">{c.link.label} ↗</a></p>}
+      </article>
+      <aside class="aside">
+        <a class="tile" href={`/leistungen/${svc.slug}/`} data-reveal>
+          <small>// passende leistung</small>
+          <h3>{svc.nav}</h3>
+          <p>{svc.lede}</p>
+          <span class="arrow">ansehen ↗</span>
+        </a>
+        <div class="aside-card" data-reveal>
+          <h3>Weitere Fallstudien</h3>
+          <ul>{others.map((o) => <li><a href={`/portfolio/${o.slug}/`}>→ {cases.find((x) => x.id === o.caseId).title}</a></li>)}</ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <CtaBlock title="Ein ähnliches Problem?" text="Beschreib mir kurz, was bei Dir hakt. Oft reicht ein Blick in Code und Logs, um zu sagen, wo es herkommt." />
+</Site>

@@ -1,0 +1,42 @@
+---
+import Site from '../layouts/Site.astro'
+import Quest from '../components/quest/Quest.astro'
+import '../styles/quest.css'
+import { ernie, block } from '../data/sprites.js'
+import { stations } from '../data/quest.js'
+import { spriteToSvg } from '../lib/pixel.js'
+import { person, graph } from '../lib/schema.js'
+
+const title = 'WHOAMI: Vom Bäcker zum Shopware-Entwickler | Sascha „Ernie“ Ernst'
+const description = 'Ernies Quest: Der Lebenslauf von Sascha Ernst als Pixel-Spiel. Vom Atari 2600 über Bäckerlehre, Baustelle und IT-Helpdesk bis zum Freelance Shopware 6 Entwickler.'
+const pageUrl = 'https://erniez28.de/whoami/'
+const jsonLd = graph(
+  { '@type': 'ProfilePage', '@id': `${pageUrl}#page`, url: pageUrl, name: title, mainEntity: { '@id': 'https://erniez28.de/#person' }, inLanguage: 'de-DE' },
+  person,
+  { '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Startseite', item: 'https://erniez28.de/' },
+    { '@type': 'ListItem', position: 2, name: 'WHOAMI', item: pageUrl },
+  ] },
+)
+const heroSvg = spriteToSvg(ernie.stand)
+const blockSvg = spriteToSvg(block, { className: 'blk' })
+---
+<Site title={title} description={description} jsonLd={jsonLd} current="whoami">
+  <section class="q-title" id="quest-start">
+    <div>
+      <div class="q-title__screen">
+        <div class="q-title__hud" aria-hidden="true"><span>1UP<br />SASCHA ERNST</span><span>HI-SCORE<br />10+ JAHRE</span></div>
+        <h1>Ernies Quest<small>Vom Backblech zum Backend · 1983–2026</small></h1>
+        <div class="q-title__hero" aria-hidden="true"><Fragment set:html={heroSvg} /><Fragment set:html={blockSvg} /></div>
+        <a class="q-title__start" href="#quest" data-quest-start><span>▶ PRESS START</span></a>
+        <p class="q-title__help">SCROLLEN = LAUFEN · PFEILTASTEN = STATION · {stations.length} ITEMS</p>
+      </div>
+      <p class="q-title__intro">
+        Ich bin <strong>Sascha „Ernie“ Ernst</strong>, Freelance Shopware 6 Entwickler aus Hagen. Mein Weg dahin war alles andere als gerade:
+        Atari, Game Boy und 386er, dann Bäckerlehre, Baustelle und Elektrowerkstatt, Abi im zweiten Anlauf, Wirtschaftsinformatik,
+        sechs Jahre IT-Helpdesk und seit 2017 Web- und E-Commerce-Entwicklung. Hier kannst Du den ganzen Weg durchspielen.
+      </p>
+    </div>
+  </section>
+  <Quest />
+</Site>

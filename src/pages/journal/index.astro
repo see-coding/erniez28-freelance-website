@@ -1,0 +1,28 @@
+---
+import Site from '../../layouts/Site.astro'
+import PageHero from '../../components/ui/PageHero.astro'
+import CtaBlock from '../../components/ui/CtaBlock.astro'
+import { articles } from '../../data/pages.js'
+import { graph } from '../../lib/schema.js'
+
+const title = 'Shopware-Journal: Praxiswissen zu Plugins, Cache & Updates | Sascha Ernst'
+const description = 'Fachartikel aus der Shopware-6-Praxis: ESI für Header und Footer in 6.7, Custom Fields ohne SQL-Fehler 1062, Theme-Update auf Shopware 6.7. Mit geprüftem Code und Quellen.'
+const fmt = (d) => new Date(d).toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })
+const jsonLd = graph({ '@type': 'Blog', name: 'erniez28 Journal', url: 'https://erniez28.de/journal/', author: { '@id': 'https://erniez28.de/#person' }, inLanguage: 'de-DE',
+  blogPost: articles.map((a) => ({ '@type': 'BlogPosting', headline: a.title, url: `https://erniez28.de/journal/${a.slug}/`, datePublished: a.date })) })
+---
+<Site title={title} description={description} jsonLd={jsonLd} current="journal">
+  <PageHero crumbs={[{ label: 'journal' }]} title="Notizen aus dem" titleEm="Maschinenraum." lede="Probleme, die mir in echten Shopware-Projekten begegnet sind, und wie ich sie gelöst habe. Mit Versionsangabe, geprüftem Code und Links auf die Quellen." />
+  <section class="section">
+    <div class="shell rows">
+      {articles.map((a, i) => (
+        <a class="row" href={`/journal/${a.slug}/`} data-reveal>
+          <span class="row__n">0{i + 1}</span>
+          <div><small>{a.category} · {a.version} · {fmt(a.date)}</small><h2>{a.title}</h2><p>{a.intro}</p></div>
+          <span class="row__arrow" aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+  </section>
+  <CtaBlock title="Hakt es bei Dir an einer ähnlichen Stelle?" text="Schreib mir, was passiert und welche Shopware-Version läuft. Dann sage ich Dir, wie ich vorgehen würde." />
+</Site>

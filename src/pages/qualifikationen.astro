@@ -1,0 +1,74 @@
+---
+import Site from '../layouts/Site.astro'
+import PageHero from '../components/ui/PageHero.astro'
+import CtaBlock from '../components/ui/CtaBlock.astro'
+import { person, graph } from '../lib/schema.js'
+
+const title = 'Qualifikationen & Tech-Stack: Shopware 6, PHP, Symfony | Sascha Ernst'
+const description = 'Kompetenzen von Shopware-Freelancer Sascha Ernst: Shopware-6-Plugins, Storefront, Administration, DAL, HTTP-Cache, Schnittstellen, Betrieb und Sicherheit. Mit verifizierbaren Google-Zertifikaten.'
+const groups = [
+  { n: '01', title: 'Shopware 6', text: 'Plugin-Entwicklung mit Dependency Injection, Event Subscribern und CLI-Commands. Storefront mit Twig 3 und SCSS, Administration mit Vue.js, CMS-Blöcke und -Elemente, DAL mit Criteria, Custom Fields und idempotenten Migrationen. Dazu HTTP-Cache und ESI, Rule Builder, Sales-Channel- und Domain-Verwaltung.', chips: ['Plugins', 'Storefront', 'Administration', 'DAL', 'HTTP-Cache / ESI', 'Rule Builder'], proof: '/portfolio/landingpage-plugin/' },
+  { n: '02', title: 'Sprachen & Frameworks', text: 'PHP 8.2 und 8.3 mit strict_types, Symfony 6 und 7, Twig 3, JavaScript (ES6+), Vue.js 2 und 3, SCSS, HTML und CSS, SQL, Python.', chips: ['PHP 8.3', 'Symfony 7', 'Twig 3', 'Vue.js', 'Python'] },
+  { n: '03', title: 'Datenbanken & Suche', text: 'MySQL 8, MariaDB, PostgreSQL, Shopware DAL, Elasticsearch und OpenSearch. Reparatur von Indizes und Arbeit mit binären UUIDs direkt in SQL.', chips: ['MySQL 8', 'MariaDB', 'PostgreSQL', 'OpenSearch'] },
+  { n: '04', title: 'Schnittstellen', text: 'REST-APIs, tokenbasierte Authentifizierung, ERP-Anbindung, Zahlungs- und Versandintegration, Webhooks.', chips: ['Admin-API', 'Store-API', 'Webhooks', 'ERP'], proof: '/leistungen/shopware-schnittstellen/' },
+  { n: '05', title: 'Betrieb & Infrastruktur', text: 'Docker, DDEV, Nginx, PHP-FPM, Composer, Git, Message Queues, Linux-Server-Administration. Automatisierte Backup- und Restore-Skripte für Shopware.', chips: ['DDEV', 'Docker', 'Nginx', 'Linux'], proof: '/portfolio/shopware-update-recovery/' },
+  { n: '06', title: 'Qualität & Sicherheit', text: 'Log- und Stacktrace-Analyse, Cache- und Performance-Debugging, Composer Security Audits, Bewertung von CVEs, CSRF und CSP, Shopware ACL. Technische Umsetzung von DSGVO- und GPSR-Anforderungen.', chips: ['Debugging', 'Composer Audit', 'CVE', 'ACL'] },
+  { n: '07', title: 'Weitere Shopsysteme', text: 'Magento, Shopify, WooCommerce, PlentyONE, JTL und WordPress aus Agentur- und Projektarbeit.', chips: ['Magento', 'Shopify', 'WooCommerce', 'PlentyONE', 'JTL'] },
+  { n: '08', title: 'Arbeitsweise', text: 'Remote-Zusammenarbeit, technische Dokumentation, direkte Abstimmung mit Kunden und Teams. Erfahrung als stellvertretende Leitung E-Commerce und als Leitung IT & Web.', chips: ['Remote', 'Dokumentation', 'Projektleitung'] },
+]
+const certs = [
+  { title: 'Google Cybersecurity Professional Certificate', meta: 'Google Career Certificates · Dezember 2025', href: 'https://coursera.org/verify/professional-cert/HCHP1KRB0IHY' },
+  { title: 'Google IT Support Professional Certificate', meta: 'Google Career Certificates · August 2025', href: 'https://coursera.org/verify/professional-cert/N65BH8UF9K73' },
+]
+const jsonLd = graph(person, { '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Startseite', item: 'https://erniez28.de/' },
+  { '@type': 'ListItem', position: 2, name: 'Qualifikationen', item: 'https://erniez28.de/qualifikationen/' },
+] })
+---
+<Site title={title} description={description} jsonLd={jsonLd}>
+  <PageHero crumbs={[{ label: 'qualifikationen' }]} title="Was ich kann," titleEm="und wo man es sieht." lede="Keine Prozentbalken und keine Sternchen. Hier steht, womit ich arbeite, und wo es geht, der Link zum Projekt, in dem man es sieht." />
+  <section class="section">
+    <div class="shell qual">
+      {groups.map((g) => (
+        <div class="qual__item" data-reveal>
+          <h3><span>{g.n}</span>{g.title}</h3>
+          <p>{g.text}</p>
+          <div class="chips">{g.chips.map((c) => <span class="chip">{c}</span>)}</div>
+          {g.proof && <a class="link" href={g.proof} style="display:inline-block;margin-top:1rem">Beleg ansehen ↗</a>}
+        </div>
+      ))}
+    </div>
+  </section>
+  <section class="section section--tint">
+    <div class="shell split">
+      <div>
+        <p class="label" data-reveal>zertifikate</p>
+        <h2 data-split style="margin-bottom:2rem">Nachprüfbar, nicht nur behauptet.</h2>
+        <div class="certs">
+          {certs.map((c) => (
+            <div class="cert" data-reveal>
+              <span class="cert__badge" aria-hidden="true">✓</span>
+              <div><h3>{c.title}</h3><p>{c.meta}</p></div>
+              <a class="link" href={c.href} target="_blank" rel="noopener">bei Coursera prüfen ↗</a>
+            </div>
+          ))}
+        </div>
+      </div>
+      <aside class="aside">
+        <div class="aside-card" data-reveal>
+          <h3>Aus- und Weiterbildung</h3>
+          <ul>
+            <li>2025 · Weiterbildung Cybersecurity (Masterschool)</li>
+            <li>2011–2015 · Wirtschaftsinformatik, FH Südwestfalen (ohne Abschluss)</li>
+            <li>2001–2004 · Ausbildung zum Bäcker, Gesellenbrief</li>
+          </ul>
+        </div>
+        <div class="aside-card" data-reveal>
+          <h3>Sprachen</h3>
+          <ul><li>Deutsch · Muttersprache</li><li>Englisch · C1</li><li>Spanisch · A2</li></ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+  <CtaBlock />
+</Site>

@@ -1,0 +1,19 @@
+---
+import { site } from '../../data/e28.js'
+interface Props { title?: string; text?: string; topic?: string }
+const { title = 'Was steht bei Dir als Nächstes an?', text = 'Erzähl mir kurz, worum es geht. Im Erstgespräch klären wir, ob und wie ich helfen kann.', topic } = Astro.props
+const briefHref = topic ? `/projekt-besprechen/?thema=${topic}` : '/projekt-besprechen/'
+---
+<section class="section cta" aria-label="Kontakt">
+  <div class="cta__grid" aria-hidden="true"></div>
+  <div class="shell cta__inner">
+    <p class="cta__prompt" data-reveal><b>$</b> ./projekt --start<span class="cursor"></span></p>
+    <h2 data-split>{title}</h2>
+    <p data-reveal style="color:var(--ink-dim);max-width:52ch">{text}</p>
+    <div class="hero__actions" data-reveal>
+      <a class="btn btn--primary" href={briefHref}>Projekt besprechen <span class="arrow" aria-hidden="true">↗</span></a>
+      <a class="btn" href={site.cal} target="_blank" rel="noopener">Erstgespräch buchen <span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+    <p class="cta__mail" data-reveal>oder direkt: <a href={`mailto:${site.email}`}>{site.email}</a> <button class="copy" type="button" data-copy={site.email}>kopieren</button></p>
+  </div>
+</section>

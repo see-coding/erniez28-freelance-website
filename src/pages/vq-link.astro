@@ -1,0 +1,11 @@
+---
+import Site from '../layouts/Site.astro'
+import Home from '../components/home/Home.astro'
+
+// QR-Code-Ziel: zeigt die Startseite und öffnet dabei den ViveQode-Hinweis.
+const title = 'Shopware Freelancer & Shopware 6 Entwickler | Sascha Ernst · erniez28'
+const description = 'Freelance Shopware 6 Entwickler für Agenturen und Shopbetreiber. Remote im DACH-Raum.'
+---
+<Site title={title} description={description} canonical="https://erniez28.de/" noindex={true}>
+  <Home promo={true} />
+</Site>

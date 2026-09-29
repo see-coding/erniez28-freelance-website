@@ -1,0 +1,48 @@
+services:
+  lead-api:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      PORT: "8788"
+      DB_PATH: /data/leads.sqlite
+      PUBLIC_ORIGIN: https://erniez28.de
+    expose:
+      - "8788"
+    volumes:
+      - leads-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,noexec,nosuid
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8788/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.website-lead.rule=Host(`api.erniez28.de`) && PathPrefix(`/api/anfrage`)"
+      - "traefik.http.routers.website-lead.entrypoints=websecure"
+      - "traefik.http.routers.website-lead.priority=100"
+      - "traefik.http.routers.website-lead.tls.certresolver=le"
+      - "traefik.http.routers.website-lead.tls.options=modern@file"
+      - "traefik.http.routers.website-lead.middlewares=secure-headers@file"
+      - "traefik.http.services.website-lead.loadbalancer.server.port=8788"
+      - "traefik.http.routers.website-lead-http.rule=Host(`api.erniez28.de`) && PathPrefix(`/api/anfrage`)"
+      - "traefik.http.routers.website-lead-http.entrypoints=web"
+      - "traefik.http.routers.website-lead-http.middlewares=redirect-to-https@file"
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  leads-data:

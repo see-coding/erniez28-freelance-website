@@ -1,0 +1,17 @@
+---
+interface Props { crumbs?: { href?: string; label: string }[]; title: string; titleEm?: string; lede?: string }
+const { crumbs = [], title, titleEm, lede } = Astro.props
+---
+<section class="page-hero">
+  <div class="shell">
+    {crumbs.length > 0 && (
+      <nav class="crumbs" aria-label="Brotkrumen" data-reveal>
+        <a href="/">erniez28</a>
+        {crumbs.map((c) => <><span aria-hidden="true">/</span>{c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}</>)}
+      </nav>
+    )}
+    <h1 data-split>{title}{titleEm && <> <em>{titleEm}</em></>}</h1>
+    {lede && <p class="page-hero__lede" data-reveal>{lede}</p>}
+    <slot />
+  </div>
+</section>

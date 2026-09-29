@@ -1,0 +1,306 @@
+---
+import { site, facts, services, cases, momentum, process, faq } from '../../data/e28.js'
+import { ernie, block } from '../../data/sprites.js'
+import { spriteToSvg } from '../../lib/pixel.js'
+import DiffWindow from '../ui/DiffWindow.astro'
+
+interface Props { promo?: boolean }
+const { promo = false } = Astro.props
+
+const codeLines = [
+  "<?php declare(strict_types=1);",
+  "namespace LandingPageShowHideSwitch\\Subscriber;",
+  "",
+  "class LandingPageSubscriber implements EventSubscriberInterface",
+  "{",
+  "    public static function getSubscribedEvents(): array",
+  "    {",
+  "        return [",
+  "            NavigationPageLoadedEvent::class => 'onNavigationPageLoaded',",
+  "            LandingPageLoadedEvent::class => 'onLandingPageLoaded',",
+  "            StorefrontRenderEvent::class => 'onStorefrontRender',",
+  "        ];",
+  "    }",
+  "",
+  "    public function onNavigationPageLoaded(NavigationPageLoadedEvent $event): void",
+  "    {",
+  "        $fields = $event->getPage()->getCategory()?->getCustomFields() ?? [];",
+  "        $event->getPage()->addExtension('lp_switch', new ArrayEntity($fields));",
+  "    }",
+  "}",
+  "",
+  "{% sw_extends '@Storefront/storefront/layout/meta.html.twig' %}",
+  "{% block layout_head_stylesheet %}{{ parent() }}{% endblock %}",
+  "",
+  "$ bin/console plugin:refresh && bin/console plugin:install --activate ErniezFeature",
+  "$ bin/console dal:refresh:index",
+  "$ bin/console theme:compile",
+  "$ bin/console cache:clear",
+  "",
+  "$criteria = (new Criteria())->addFilter(new EqualsFilter('name', self::SET_NAME));",
+  "$setRepo->upsert([$set], $context);",
+  "",
+  "Shopware.Component.register('sw-cms-el-lp-legal-modals', {",
+  "    template, mixins: ['cms-element'],",
+  "    created() { this.initElementConfig('lp-legal-modals'); },",
+  "});",
+  "",
+]
+const code = Array.from({ length: 5 }, () => codeLines.map((line) => line.padEnd(96, ' ')).join('\n')).join('\n')
+const codeWide = code.split('\n').map((line, i) => line + '   ' + codeLines[(i + 7) % codeLines.length]).join('\n')
+
+const heroSprite = [spriteToSvg(ernie.walkA, { className: 'f1' }), spriteToSvg(ernie.walkB, { className: 'f2' })].join('')
+const blockSvg = spriteToSvg(block)
+const tagName = { shipped: 'shipped', wip: 'wip', cert: 'cert', learn: 'learn', plugin: 'plugin', theme: 'theme', side: 'side' }
+---
+<section class="hero" id="top" data-hero-section>
+  <div class="hero__code" aria-hidden="true">{codeWide}</div>
+  <div class="hero__code hero__code--lit" aria-hidden="true">{codeWide}</div>
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="hero__shade" aria-hidden="true"></div>
+
+  <div class="shell hero__inner">
+    <div class="hero__copy">
+      <p class="badge" data-hero style="--i:0"><span class="dot"></span>open_for_projects = true · {site.capacity}</p>
+      <h1 data-hero style="--i:1">
+        <span class="h1-kicker">Freelance</span>
+        <span class="h1-big"><span class="accent" data-scramble>Shopware&nbsp;6</span> Entwickler</span>
+        <span class="h1-tail">für Agenturen &amp; Shopbetreiber.</span>
+      </h1>
+      <p class="hero__lede" data-hero style="--i:2">
+        Ich baue <strong>Plugins, Storefronts und Schnittstellen</strong>, die auch nach dem nächsten Update noch laufen.
+        Und wenn es brennt, bringe ich Deinen Shop wieder zum Laufen.
+      </p>
+      <div class="hero__actions" data-hero style="--i:4">
+        <a class="btn btn--primary" href="/projekt-besprechen/">Projekt besprechen <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="btn" href={site.cal} target="_blank" rel="noopener">Erstgespräch buchen <span class="arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+
+    <div class="term" data-hero style="--i:3" data-term>
+      <div class="term__bar" aria-hidden="true"><i></i><i></i><i></i><span>zsh · erniez28@hagen</span></div>
+      <div class="term__body" data-term-body aria-live="polite">
+        <noscript>
+          <div class="term__line"><span class="term__prompt">erniez28@hagen ~ %</span> whoami</div>
+          <div class="term__line t-accent">Sascha „Ernie“ Ernst</div>
+          <div class="term__line t-dim">Shopware 6 · PHP 8 / Symfony · 10+ Jahre E-Commerce</div>
+        </noscript>
+      </div>
+      <p class="term__hint" data-term-hint hidden>tipp „help“ ein und drück Enter</p>
+    </div>
+  </div>
+  <div class="hero__scroll" aria-hidden="true"><span>scroll</span><i></i></div>
+</section>
+
+<section class="facts" aria-label="Kurz in Zahlen">
+  <div class="shell">
+    <div class="facts__grid" data-reveal>
+      {facts.map((f) => (
+        <div class="fact" data-count={f.value} data-decimals={f.decimals || 0}>
+          <div class="fact__num"><span class="num" data-count-value>{f.value}</span>{f.suffix && <span>{f.suffix}</span>}</div>
+          <p>{f.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="leistungen" aria-labelledby="leistungen-title">
+  <div class="shell">
+    <div class="section-head">
+      <div>
+        <p class="label" data-reveal>01 · leistungen</p>
+        <h2 id="leistungen-title" data-split>Wenn der Standard nicht mehr reicht.</h2>
+      </div>
+      <p data-reveal>Ich springe da ein, wo Shopware-Projekte technisch haken. Als Verstärkung für Agenturen oder direkt für Dein Shop-Team.</p>
+    </div>
+    <div class="services">
+      {services.map((s, i) => (
+        <article class="card service" data-reveal style={`--d:${i * 90}`}>
+          <div class="card__in">
+            <div class="service__top"><span class="glyph" aria-hidden="true">{s.glyph}</span><span class="mono" style="font-size:.72rem;color:var(--ink-faint)">0{i + 1}</span></div>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            <div class="chips">{s.chips.map((c) => <span class="chip">{c}</span>)}</div>
+            <div class="service__cmd" aria-hidden="true"><b>$</b> <span data-cmd={s.cmd}>{s.cmd}</span></div>
+            <a class="service__more" href={s.href}>Mehr dazu <span class="arrow" aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" id="werkstatt" aria-labelledby="werkstatt-title">
+  <div class="shell">
+    <div class="section-head">
+      <div>
+        <p class="label" data-reveal>02 · aus der werkstatt</p>
+        <h2 id="werkstatt-title" data-split>Problem. Ursache. Fix.</h2>
+      </div>
+      <p data-reveal>Drei echte Fälle aus meinen Projekten, mit dem Code, der das Problem gelöst hat.</p>
+    </div>
+    <div class="cases">
+      {cases.map((c) => {
+        return (
+          <article class="case" id={c.id}>
+            <div class="case__text" data-reveal>
+              <p class="case__label">{c.label}</p>
+              <h3>{c.title}</h3>
+              <dl>
+                <div class="case__block"><dt>Problem</dt><dd>{c.problem}</dd></div>
+                <div class="case__block"><dt>Lösung</dt><dd>{c.fix}</dd></div>
+              </dl>
+              <div class="chips">{c.tags.map((t) => <span class="chip">{t}</span>)}</div>
+              <a class="link case__link" href={`/portfolio/${c.slug}/`}>Ganze Fallstudie lesen ↗</a>
+            </div>
+            <DiffWindow file={c.file} diff={c.diff} />
+          </article>
+        )
+      })}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="momentum" aria-labelledby="momentum-title">
+  <div class="shell">
+    <div class="section-head">
+      <div>
+        <p class="label" data-reveal>03 · changelog</p>
+        <h2 id="momentum-title" data-split>Referenzen &amp; Momentum.</h2>
+      </div>
+      <p data-reveal>Was zuletzt passiert ist, als Git-Log. Eine Zeile anklicken, dann klappt der Diff auf.</p>
+    </div>
+    <div class="log" data-reveal>
+      <div class="log__bar"><i></i><i></i><i></i><span>~/erniez28 · git log --oneline</span><em><span class="dot"></span>tail -f</em></div>
+      {momentum.map((m, i) => (
+        <div class={`entry${i === 0 ? ' is-open' : ''}`} data-entry>
+          <button class="entry__head" type="button" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`entry-${i}`}>
+            <span class="entry__date">{m.date}</span>
+            <span class={`tag tag--${m.tag}`}>{tagName[m.tag]}</span>
+            <span class="entry__title">{m.title}</span>
+            <span class="entry__caret" aria-hidden="true">▸</span>
+          </button>
+          <div class="entry__body" id={`entry-${i}`}>
+            <div>
+              <div class="entry__diff">
+                {m.diff.map(([t, text]) => <div class={t}>{text}</div>)}
+                {m.link && <a href={m.link.href} target={m.link.href.startsWith('http') ? '_blank' : undefined} rel="noopener">{m.link.label} ↗</a>}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" id="about" aria-labelledby="about-title">
+  <div class="shell about">
+    <div data-reveal>
+      <div class="profile" data-tilt>
+        <div class="profile__photo">
+          <span class="profile__file">~/avatar.jpg</span>
+          <img src="/images/ernie-card.jpg" alt="Sascha „Ernie“ Ernst mit Cap, Sonnenbrille und Vollbart" width="620" height="744" loading="lazy" decoding="async" />
+        </div>
+        <div class="profile__body">
+          <div class="profile__name">Sascha Ernst</div>
+          <div class="profile__role">Freelance Shopware 6 Developer</div>
+          <dl class="kv">
+            <dt>basis</dt><dd>Hagen, NRW · remote DACH</dd>
+            <dt>erfahrung</dt><dd>10+ Jahre E-Commerce</dd>
+            <dt>zuletzt</dt><dd>Leitung IT &amp; Web</dd>
+            <dt>davor</dt><dd>stellv. Leitung E-Commerce</dd>
+            <dt>sprachen</dt><dd>Deutsch, Englisch (C1)</dd>
+            <dt>status</dt><dd class="t-green">● open_for_projects</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="about__text">
+      <p class="label" data-reveal>04 · whoami</p>
+      <h2 id="about-title" data-split>Vom Backblech zum Backend.</h2>
+      <p data-reveal>Ich bin Sascha, alle nennen mich Ernie. Mit drei habe ich am Atari Pac-Man gespielt, mit zehn DOS-Befehle gelernt. Danach wurde ich erst mal Bäcker. Der Weg in die Entwicklung ging über Baustelle, Elektrowerkstatt, Abi im zweiten Anlauf, Wirtschaftsinformatik und sechs Jahre IT-Support.</p>
+      <p data-reveal>Seit 2017 entwickle ich beruflich Websites und Shops: in einer Marketingagentur, als <strong>stellvertretende Leitung E-Commerce mit über 50 Kundensystemen</strong> und zuletzt als <strong>Leitung IT &amp; Web</strong>. Dort habe ich unter anderem den Onlineshop einer großen Bäckerei betreut. Der Kreis hat sich geschlossen.</p>
+      <p data-reveal>Heute arbeite ich selbstständig, remote für Agenturen und Shopbetreiber. Am liebsten da, wo es technisch hakt.</p>
+      <a class="teaser" href="/whoami/" data-reveal data-teaser aria-label="Ernies Quest: den Lebenslauf als Pixel-Spiel durchspielen">
+        <div class="teaser__screen" aria-hidden="true">
+          <div class="teaser__block" set:html={blockSvg}></div>
+          <div class="teaser__hero" data-teaser-hero set:html={heroSprite}></div>
+        </div>
+        <div class="teaser__cta">ERNIES QUEST<b>▶ PRESS START</b></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="ablauf" aria-labelledby="ablauf-title">
+  <div class="shell">
+    <div class="section-head">
+      <div>
+        <p class="label" data-reveal>05 · zusammenarbeit</p>
+        <h2 id="ablauf-title" data-split>So arbeiten wir zusammen.</h2>
+      </div>
+      <p data-reveal>Kein Pitch-Deck, keine Agentur-Schleifen. Du sprichst direkt mit dem, der den Code schreibt.</p>
+    </div>
+    <div class="steps" data-steps>
+      <div class="steps__line" aria-hidden="true"><i></i></div>
+      {process.map((s, i) => (
+        <div class="step" data-reveal style={`--d:${i * 120}`} data-step>
+          <div class="step__n">{s.step}</div>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint" id="faq" aria-labelledby="faq-title">
+  <div class="shell faq-wrap">
+    <div class="section-head">
+      <p class="label" data-reveal>06 · faq</p>
+      <h2 id="faq-title" data-split>Häufige Fragen.</h2>
+      <p data-reveal>Was Agenturen und Shopbetreiber vor dem ersten Gespräch meistens wissen wollen.</p>
+    </div>
+    <div class="faq" data-reveal>
+      {faq.map((item) => (
+        <details>
+          <summary>{item.q}<i aria-hidden="true"></i></summary>
+          <p class="answer">{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section cta" id="kontakt" aria-labelledby="kontakt-title">
+  <div class="cta__grid" aria-hidden="true"></div>
+  <div class="shell cta__inner">
+    <p class="cta__prompt" data-reveal><b>$</b> ./projekt --start<span class="cursor"></span></p>
+    <h2 id="kontakt-title" data-split>Was steht bei Dir als Nächstes an?</h2>
+    <p data-reveal style="color:var(--ink-dim);max-width:52ch">Erzähl mir kurz, worum es geht. Im Erstgespräch klären wir, ob und wie ich helfen kann.</p>
+    <div class="hero__actions" data-reveal>
+      <a class="btn btn--primary" href="/projekt-besprechen/">Projekt besprechen <span class="arrow" aria-hidden="true">↗</span></a>
+      <a class="btn" href={site.cal} target="_blank" rel="noopener">Erstgespräch buchen <span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+    <p class="cta__mail" data-reveal>oder direkt: <a href={`mailto:${site.email}`}>{site.email}</a> <button class="copy" type="button" data-copy={site.email}>kopieren</button></p>
+  </div>
+</section>
+
+{promo && (
+  <dialog class="promo" data-promo aria-labelledby="promo-title">
+    <button class="promo__close" type="button" data-promo-close aria-label="Hinweis schließen">×</button>
+    <p class="label">qr-code gescannt</p>
+    <h2 id="promo-title">Schön, dass Du da bist.</h2>
+    <p>Der QR-Code, über den Du gekommen bist, läuft über <strong>ViveQode</strong>, mein Projekt für dynamische QR-Codes und Smart Links. Ziel ändern, Scans auswerten, ohne neu zu drucken.</p>
+    <div class="hero__actions" style="justify-content:flex-start">
+      <a class="btn btn--primary" href="https://viveqode.com" target="_blank" rel="noopener">ViveQode ansehen <span class="arrow" aria-hidden="true">↗</span></a>
+      <button class="btn" type="button" data-promo-close>Zur Seite</button>
+    </div>
+  </dialog>
+)}
+
+<script>
+  import '../../scripts/home.js'
+</script>

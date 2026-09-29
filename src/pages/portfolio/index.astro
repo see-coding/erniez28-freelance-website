@@ -1,0 +1,60 @@
+---
+import Site from '../../layouts/Site.astro'
+import PageHero from '../../components/ui/PageHero.astro'
+import CtaBlock from '../../components/ui/CtaBlock.astro'
+import { caseStudies } from '../../data/pages.js'
+import { cases } from '../../data/e28.js'
+import { graph } from '../../lib/schema.js'
+
+const title = 'Shopware-Projekte & Fallstudien | Sascha Ernst · erniez28'
+const description = 'Fallstudien aus der Shopware-6-Praxis: eigenes Plugin für Landingpages, Theme-Migration auf 6.7, Recovery nach fehlgeschlagenen Updates. Mit Problem, Ursache, Lösung und Code.'
+const side = [
+  { title: 'AintLikeYou Clothing', text: 'Streetwear-Shop auf Shopware 6, an dem ich seit 2024 technisch verantwortlich mitarbeite: Theme, Plugins, Zahlung, Versand und Betrieb.', href: 'https://aintlikeyouclothing.com', label: 'aintlikeyouclothing.com' },
+  { title: 'ViveQode', text: 'Eigenes Produkt für dynamische QR-Codes und Smart Links: Ziel ändern, Scans auswerten, ohne neu zu drucken.', href: 'https://viveqode.com', label: 'viveqode.com' },
+  { title: 'OTN · One-Time-Note', text: 'Eigenprojekt: Notizen, die sich nach dem Lesen selbst zerstören. AES-256-GCM komplett im Browser, der Schlüssel steht nur im URL-Fragment.' },
+  { title: 'Print-on-Demand-Zentrale', text: 'Interne Auftragszentrale mit Next.js und MySQL. In Arbeit: ein Connector, der Aufträge per Knopfdruck an Shirtigo übergibt.' },
+]
+const jsonLd = graph({ '@type': 'CollectionPage', name: title, url: 'https://erniez28.de/portfolio/', about: { '@id': 'https://erniez28.de/#person' },
+  hasPart: caseStudies.map((c) => ({ '@type': 'Article', headline: c.metaTitle.split('|')[0].trim(), url: `https://erniez28.de/portfolio/${c.slug}/` })) })
+---
+<Site title={title} description={description} jsonLd={jsonLd} current="projekte">
+  <PageHero crumbs={[{ label: 'projekte' }]} title="Weniger Behauptungen." titleEm="Mehr Code." lede="Hier stehen keine Logos und keine erfundenen Kennzahlen. Stattdessen echte Probleme aus meinen Shopware-Projekten, wie ich sie gelöst habe und der Code dazu." />
+
+  <section class="section">
+    <div class="shell">
+      <p class="label" data-reveal>fallstudien</p>
+      <div class="rows">
+        {caseStudies.map((c, i) => {
+          const base = cases.find((x) => x.id === c.caseId)
+          return (
+            <a class="row" href={`/portfolio/${c.slug}/`} data-reveal>
+              <span class="row__n">0{i + 1}</span>
+              <div><small>{base.label}</small><h2>{base.title}</h2><p>{c.context}</p></div>
+              <span class="row__arrow" aria-hidden="true">↗</span>
+            </a>
+          )
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="shell">
+      <div class="section-head">
+        <div><p class="label" data-reveal>außerdem</p><h2 data-split>Eigene Projekte und Shop-Praxis.</h2></div>
+        <p data-reveal>Nicht alles ist Kundenarbeit. Vieles, was ich über Shopware und Betrieb weiß, habe ich an eigenen Projekten gelernt.</p>
+      </div>
+      <div class="tiles" style="grid-template-columns:repeat(2,1fr)">
+        {side.map((p) => (
+          <div class="tile" data-reveal>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+            {p.href && <a class="link" href={p.href} target="_blank" rel="noopener">{p.label} ↗</a>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBlock title="Ein ähnliches Problem?" text="Beschreib mir kurz, was bei Dir hakt. Oft reicht ein Blick in Code und Logs, um zu sagen, wo es herkommt." />
+</Site>

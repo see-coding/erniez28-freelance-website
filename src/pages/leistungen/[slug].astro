@@ -1,0 +1,98 @@
+---
+import Site from '../../layouts/Site.astro'
+import PageHero from '../../components/ui/PageHero.astro'
+import CtaBlock from '../../components/ui/CtaBlock.astro'
+import { serviceDetails, caseStudies, articles } from '../../data/pages.js'
+import { site } from '../../data/e28.js'
+import { graph } from '../../lib/schema.js'
+
+export function getStaticPaths() {
+  return serviceDetails.map((s) => ({ params: { slug: s.slug }, props: { s } }))
+}
+const { s } = Astro.props
+const url = `https://erniez28.de/leistungen/${s.slug}/`
+const caseStudy = s.caseSlug ? caseStudies.find((c) => c.slug === s.caseSlug) : null
+const article = s.articleSlug ? articles.find((a) => a.slug === s.articleSlug) : null
+const others = serviceDetails.filter((o) => o.slug !== s.slug)
+const topic = { 'shopware-plugin-entwicklung': 'plugin', 'shopware-storefront': 'storefront', 'shopware-schnittstellen': 'integration', 'shopware-wartung': 'wartung' }[s.slug]
+const jsonLd = graph(
+  {
+    '@type': 'Service', '@id': `${url}#service`, name: s.nav, serviceType: s.metaTitle.split('|')[0].trim(), description: s.metaDescription, url,
+    provider: { '@id': 'https://erniez28.de/#person' },
+    areaServed: [{ '@type': 'Country', name: 'Deutschland' }, { '@type': 'Country', name: 'Österreich' }, { '@type': 'Country', name: 'Schweiz' }],
+    ...(s.slug === 'shopware-wartung' ? { offers: { '@type': 'Offer', priceSpecification: { '@type': 'UnitPriceSpecification', price: 150, priceCurrency: 'EUR', unitText: 'Monat', description: 'ab 150 € im Monat' } } } : {}),
+  },
+  { '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Startseite', item: 'https://erniez28.de/' },
+    { '@type': 'ListItem', position: 2, name: 'Leistungen', item: 'https://erniez28.de/leistungen/' },
+    { '@type': 'ListItem', position: 3, name: s.nav, item: url },
+  ] },
+  { '@type': 'FAQPage', mainEntity: s.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+)
+---
+<Site title={s.metaTitle} description={s.metaDescription} jsonLd={jsonLd} current="leistungen">
+  <PageHero crumbs={[{ href: '/leistungen/', label: 'leistungen' }, { label: s.nav.toLowerCase() }]} title={s.title} titleEm={s.titleEm} lede={s.lede}>
+    <div class="hero__actions" data-reveal>
+      <a class="btn btn--primary" href={`/projekt-besprechen/?thema=${topic}`}>Projekt besprechen <span class="arrow" aria-hidden="true">↗</span></a>
+      <a class="btn" href={site.cal} target="_blank" rel="noopener">Erstgespräch buchen <span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="shell split">
+      <div class="prose">
+        {s.intro.map((p) => <p data-reveal>{p}</p>)}
+
+        <h2 data-reveal>Was ich übernehme</h2>
+        <ul class="tasks" data-reveal>{s.tasks.map((t) => <li>{t}</li>)}</ul>
+
+        {s.emergency && (
+          <>
+            <h2 data-reveal>{s.emergency.title}</h2>
+            <p data-reveal>{s.emergency.text}</p>
+            <ul class="tasks" data-reveal>{s.emergency.tasks.map((t) => <li>{t}</li>)}</ul>
+          </>
+        )}
+
+        <h2 data-reveal>So gehe ich vor</h2>
+        {s.approach.map((p) => <p data-reveal>{p}</p>)}
+
+        {s.current && <blockquote data-reveal>{s.current}</blockquote>}
+
+        <h2 data-reveal>Häufige Fragen</h2>
+        <div class="faq" data-reveal>
+          {s.faq.map((f) => <details><summary>{f.q}<i aria-hidden="true"></i></summary><p class="answer">{f.a}</p></details>)}
+        </div>
+      </div>
+
+      <aside class="aside">
+        {caseStudy && (
+          <a class="tile" href={`/portfolio/${caseStudy.slug}/`} data-reveal>
+            <small>// fallstudie</small>
+            <h3>{caseStudy.metaTitle.replace('Fallstudie: ', '').split('|')[0].trim()}</h3>
+            <p>{caseStudy.context}</p>
+            <span class="arrow">lesen ↗</span>
+          </a>
+        )}
+        {article && (
+          <a class="tile" href={`/journal/${article.slug}/`} data-reveal>
+            <small>// journal · {article.version}</small>
+            <h3>{article.short}</h3>
+            <span class="arrow">lesen ↗</span>
+          </a>
+        )}
+        <div class="aside-card" data-reveal>
+          <h3>Weitere Leistungen</h3>
+          <ul>{others.map((o) => <li><a href={`/leistungen/${o.slug}/`}>→ {o.nav}</a></li>)}</ul>
+        </div>
+        <div class="aside-card" data-reveal>
+          <h3>Direkt sprechen?</h3>
+          <p>30 Minuten, kostenlos. Du erzählst, ich sage Dir ehrlich, ob ich helfen kann.</p>
+          <a class="btn btn--primary" href={site.cal} target="_blank" rel="noopener">Termin wählen <span class="arrow" aria-hidden="true">↗</span></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <CtaBlock topic={topic} />
+</Site>

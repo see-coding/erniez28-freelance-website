@@ -1,0 +1,39 @@
+---
+import Site from '../layouts/Site.astro'
+import PageHero from '../components/ui/PageHero.astro'
+import ProjectBrief from '../components/ProjectBrief.jsx'
+import { site } from '../data/e28.js'
+
+const title = 'Shopware-Projekt besprechen | Sascha Ernst · erniez28'
+const description = 'Beschreib Dein Shopware-Projekt in drei Schritten, buch ein kostenloses Erstgespräch oder schreib direkt an kontakt@erniez28.de. Antwort in der Regel innerhalb eines Werktags.'
+---
+<Site title={title} description={description} current="kontakt">
+  <PageHero crumbs={[{ label: 'kontakt' }]} title="Erzähl mir," titleEm="worum es geht." lede="Drei kurze Fragen, dann entscheidest Du, wie es weitergeht: Rückmeldung anfordern, E-Mail selbst schreiben oder direkt einen Termin buchen." />
+  <section class="section">
+    <div class="shell split">
+      <div data-reveal>
+        <ProjectBrief client:load />
+      </div>
+      <aside class="aside">
+        <div class="aside-card" data-reveal>
+          <h2>Lieber gleich sprechen?</h2>
+          <p>30 Minuten, kostenlos und unverbindlich. Such Dir einfach einen freien Termin aus.</p>
+          <a class="btn btn--primary" href={site.cal} target="_blank" rel="noopener">Erstgespräch buchen <span class="arrow" aria-hidden="true">↗</span></a>
+        </div>
+        <div class="aside-card" data-reveal>
+          <h2>Was danach passiert</h2>
+          <ul>
+            <li>→ Ich melde mich in der Regel innerhalb eines Werktags.</li>
+            <li>→ Wir klären Ziel, Umfang und Zeitrahmen.</li>
+            <li>→ Du bekommst eine Einschätzung oder ein Angebot.</li>
+          </ul>
+        </div>
+        <div class="aside-card" data-reveal>
+          <h2>Direkt</h2>
+          <p><a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
+          <p style="margin-top:.6rem">Hagen, NRW · remote im ganzen DACH-Raum</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Site>

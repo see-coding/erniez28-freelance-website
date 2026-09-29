@@ -1,0 +1,26 @@
+---
+import Site from '../layouts/Site.astro'
+import PageHero from '../components/ui/PageHero.astro'
+import { site } from '../data/e28.js'
+---
+<Site title="Impressum | erniez28 · Sascha Ernst" description="Impressum von erniez28.de, Sascha Ernst, SEE Service Group, Hagen." noindex={true}>
+  <PageHero crumbs={[{ label: 'impressum' }]} title="Impressum" />
+  <section class="section">
+    <div class="shell prose">
+      <h2 style="margin-top:0">Angaben gemäß § 5 DDG</h2>
+      <p>SEE Service Group<br />Inhaber: Sascha Ernst<br />Franklinstr. 18<br />58089 Hagen<br />Deutschland</p>
+
+      <h2>Kontakt</h2>
+      <p>Telefon: <a href="tel:+4923316957172">+49 2331 695 71 72</a><br />E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+
+      <h2>Umsatzsteuer</h2>
+      <p>Eine Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz ist nicht vorhanden.</p>
+
+      <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+      <p>Sascha Ernst, Franklinstr. 18, 58089 Hagen</p>
+
+      <h2>Haftung für Inhalte</h2>
+      <p>Die Inhalte dieser Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann ich jedoch keine Gewähr übernehmen. Als Diensteanbieter bin ich gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG bin ich als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werde ich diese Inhalte umgehend entfernen.</p>
+    </div>
+  </section>
+</Site>
