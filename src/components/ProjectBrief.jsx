@@ -10,6 +10,8 @@ const options = ['Individuelles Plugin', 'Storefront oder Theme', 'Schnittstelle
 const audienceOptions = ['Für eine Agentur', 'Für meinen Shop', 'Anderer Kontext']
 const timeframeOptions = ['So bald wie möglich', 'In den nächsten Monaten', 'Termin noch offen']
 const apiUrl = import.meta.env.PUBLIC_LEAD_API_URL || 'https://api.erniez28.de/api/anfrage'
+// Rückmeldebitte über die Lead-API erst anzeigen, wenn der Dienst live ist (PUBLIC_LEAD_API_ENABLED=true).
+const apiEnabled = import.meta.env.PUBLIC_LEAD_API_ENABLED === 'true'
 const fallbackSelections = { audience: 'Anderer Kontext', topic: 'Noch nicht sicher', timeframe: 'Termin noch offen' }
 
 export default function ProjectBrief() {
@@ -85,21 +87,28 @@ export default function ProjectBrief() {
       {step === 1 && <fieldset><legend>Worum geht es hauptsächlich?</legend><div className="choice-list">{options.map(x => <button type="button" key={x} className={`choice ${topic === x ? 'is-active' : ''}`} aria-pressed={topic === x} onClick={() => setTopic(x)}>{x}</button>)}</div></fieldset>}
       {step === 2 && <fieldset><legend>Wann möchtest Du starten?</legend><div className="choice-list">{timeframeOptions.map(x => <button type="button" key={x} className={`choice ${timeframe === x ? 'is-active' : ''}`} aria-pressed={timeframe === x} onClick={() => setTimeframe(x)}>{x}</button>)}</div><label className="field-label" htmlFor="brief-details">Gibt es schon eine Shop-URL, Shopware-Version oder eine kurze Beschreibung? <span>(optional)</span></label><textarea id="brief-details" rows="4" maxLength="1200" value={details} onChange={e => setDetails(e.target.value)} placeholder="Was soll sich ändern oder besser funktionieren?" /></fieldset>}
       {step >= 3 && <div className="brief-summary"><p className="eyebrow">// Dein Projektbrief</p><h2>So könnte eine erste Nachricht aussehen.</h2><pre>{summary}</pre>
+        {apiEnabled ? (
         <form className="lead-request" onSubmit={submitRequest}>
-          <div className="lead-request__fields">
-            <label className="field-label" htmlFor="brief-name">Name <span>(optional)</span><input id="brief-name" autoComplete="name" maxLength="100" value={name} onChange={e => setName(e.target.value)} /></label>
-            <label className="field-label" htmlFor="brief-email">E-Mail für meine Antwort<input id="brief-email" type="email" autoComplete="email" maxLength="254" value={email} onChange={e => setEmail(e.target.value)} required /></label>
-          </div>
-          <fieldset><legend>Wie soll ich Dich erreichen?</legend><div className="choice-list choice-list--inline">
-            <button type="button" className={`choice ${contactMethod === 'email' ? 'is-active' : ''}`} aria-pressed={contactMethod === 'email'} onClick={() => setContactMethod('email')}>Per E-Mail</button>
-            <button type="button" className={`choice ${contactMethod === 'phone' ? 'is-active' : ''}`} aria-pressed={contactMethod === 'phone'} onClick={() => setContactMethod('phone')}>Per Rückruf</button>
-          </div></fieldset>
-          {contactMethod === 'phone' && <label className="field-label" htmlFor="brief-phone">Telefonnummer für den Rückruf<input id="brief-phone" type="tel" autoComplete="tel" maxLength="40" value={phone} onChange={e => setPhone(e.target.value)} required /></label>}
-          <label className="field-label lead-request__trap" aria-hidden="true" htmlFor="brief-website">Website<input id="brief-website" tabIndex={-1} autoComplete="off" value={website} onChange={e => setWebsite(e.target.value)} /></label>
-          <label className="lead-request__confirm"><input type="checkbox" checked={contactRequest} onChange={e => setContactRequest(e.target.checked)} required /> <span>Ich bitte um Rückmeldung zu dieser Anfrage. Meine Angaben werden dafür an den Kontakt-Dienst von erniez28.de übermittelt. <a href="/datenschutz/">Datenschutzhinweise</a>.</span></label>
-          <div className="brief-actions"><button className="btn btn--primary" type="submit" disabled={sending || !contactRequest}>{sending ? 'Wird übermittelt …' : contactMethod === 'phone' ? 'Rückruf anfragen' : 'Rückmeldung anfragen'} <span aria-hidden="true">↗</span></button><a className="btn" href={mailto}>E-Mail selbst öffnen <span aria-hidden="true">↗</span></a><button className="btn btn--quiet" type="button" onClick={copySummary}>{copied ? 'Kopiert' : 'Projektbrief kopieren'}</button></div>
-          {feedback && <p className={`lead-feedback lead-feedback--${feedback.kind}`} role={feedback.kind === 'error' ? 'alert' : 'status'}>{feedback.text}</p>}
-        </form>
+            <div className="lead-request__fields">
+              <label className="field-label" htmlFor="brief-name">Name <span>(optional)</span><input id="brief-name" autoComplete="name" maxLength="100" value={name} onChange={e => setName(e.target.value)} /></label>
+              <label className="field-label" htmlFor="brief-email">E-Mail für meine Antwort<input id="brief-email" type="email" autoComplete="email" maxLength="254" value={email} onChange={e => setEmail(e.target.value)} required /></label>
+            </div>
+            <fieldset><legend>Wie soll ich Dich erreichen?</legend><div className="choice-list choice-list--inline">
+              <button type="button" className={`choice ${contactMethod === 'email' ? 'is-active' : ''}`} aria-pressed={contactMethod === 'email'} onClick={() => setContactMethod('email')}>Per E-Mail</button>
+              <button type="button" className={`choice ${contactMethod === 'phone' ? 'is-active' : ''}`} aria-pressed={contactMethod === 'phone'} onClick={() => setContactMethod('phone')}>Per Rückruf</button>
+            </div></fieldset>
+            {contactMethod === 'phone' && <label className="field-label" htmlFor="brief-phone">Telefonnummer für den Rückruf<input id="brief-phone" type="tel" autoComplete="tel" maxLength="40" value={phone} onChange={e => setPhone(e.target.value)} required /></label>}
+            <label className="field-label lead-request__trap" aria-hidden="true" htmlFor="brief-website">Website<input id="brief-website" tabIndex={-1} autoComplete="off" value={website} onChange={e => setWebsite(e.target.value)} /></label>
+            <label className="lead-request__confirm"><input type="checkbox" checked={contactRequest} onChange={e => setContactRequest(e.target.checked)} required /> <span>Ich bitte um Rückmeldung zu dieser Anfrage. Meine Angaben werden dafür an den Kontakt-Dienst von erniez28.de übermittelt. <a href="/datenschutz/">Datenschutzhinweise</a>.</span></label>
+            <div className="brief-actions"><button className="btn btn--primary" type="submit" disabled={sending || !contactRequest}>{sending ? 'Wird übermittelt …' : contactMethod === 'phone' ? 'Rückruf anfragen' : 'Rückmeldung anfragen'} <span aria-hidden="true">↗</span></button><a className="btn" href={mailto}>E-Mail selbst öffnen <span aria-hidden="true">↗</span></a><button className="btn btn--quiet" type="button" onClick={copySummary}>{copied ? 'Kopiert' : 'Projektbrief kopieren'}</button></div>
+            {feedback && <p className={`lead-feedback lead-feedback--${feedback.kind}`} role={feedback.kind === 'error' ? 'alert' : 'status'}>{feedback.text}</p>}
+          </form>
+        ) : (
+          <>
+            <div className="brief-actions"><a className="btn btn--primary" href={mailto}>Als E-Mail öffnen <span aria-hidden="true">↗</span></a><button className="btn btn--quiet" type="button" onClick={copySummary}>{copied ? 'Kopiert' : 'Projektbrief kopieren'}</button></div>
+            {feedback && <p className={`lead-feedback lead-feedback--${feedback.kind}`} role="alert">{feedback.text}</p>}
+          </>
+        )}
         <div className="book-fallback"><p>Lieber direkt einen Termin wählen?</p><a className="link" href="https://cal.erniez28.de/ernie/erstgespraech" target="_blank" rel="noreferrer">30-minütiges Erstgespräch buchen <span aria-hidden="true">↗</span></a></div>
       </div>}
     </div>

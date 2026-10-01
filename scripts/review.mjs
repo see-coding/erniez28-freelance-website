@@ -17,7 +17,7 @@ if (!config.SMTP_PASS || config.SMTP_PASS.includes('REPLACE_WITH')) throw new Er
 mkdirSync(directory, { recursive: true })
 const build = spawn(process.execPath, ['node_modules/.bin/astro', 'build', '--outDir', site], {
   cwd: project, stdio: 'inherit',
-  env: { ...process.env, ASTRO_TELEMETRY_DISABLED: '1', PUBLIC_LEAD_API_URL: '/api/anfrage', PUBLIC_REVIEW_VERSION: version },
+  env: { ...process.env, ASTRO_TELEMETRY_DISABLED: '1', PUBLIC_LEAD_API_URL: '/api/anfrage', PUBLIC_LEAD_API_ENABLED: 'true', PUBLIC_REVIEW_VERSION: version },
 })
 const code = await new Promise(resolve => build.once('exit', resolve))
 if (code !== 0) process.exit(Number(code) || 1)

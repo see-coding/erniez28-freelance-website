@@ -4,11 +4,13 @@ import PageHero from '../components/ui/PageHero.astro'
 import ProjectBrief from '../components/ProjectBrief.jsx'
 import { site } from '../data/e28.js'
 
+const apiEnabled = import.meta.env.PUBLIC_LEAD_API_ENABLED === 'true'
+
 const title = 'Shopware-Projekt besprechen | Sascha Ernst · erniez28'
 const description = 'Beschreib Dein Shopware-Projekt in drei Schritten, buch ein kostenloses Erstgespräch oder schreib direkt an kontakt@erniez28.de. Antwort in der Regel innerhalb eines Werktags.'
 ---
 <Site title={title} description={description} current="kontakt">
-  <PageHero crumbs={[{ label: 'kontakt' }]} title="Erzähl mir," titleEm="worum es geht." lede="Drei kurze Fragen, dann entscheidest Du, wie es weitergeht: Rückmeldung anfordern, E-Mail selbst schreiben oder direkt einen Termin buchen." />
+  <PageHero crumbs={[{ label: 'kontakt' }]} title="Erzähl mir," titleEm="worum es geht." lede={apiEnabled ? "Drei kurze Fragen, dann entscheidest Du, wie es weitergeht: Rückmeldung anfordern, E-Mail selbst schreiben oder direkt einen Termin buchen." : "Drei kurze Fragen, dann schickst Du mir Deinen Projektbrief per E-Mail oder buchst direkt einen Termin."} />
   <section class="section">
     <div class="shell split">
       <div data-reveal>
