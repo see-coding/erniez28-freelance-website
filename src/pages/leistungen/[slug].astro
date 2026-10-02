@@ -14,7 +14,7 @@ const url = `https://erniez28.de/leistungen/${s.slug}/`
 const caseStudy = s.caseSlug ? caseStudies.find((c) => c.slug === s.caseSlug) : null
 const article = s.articleSlug ? articles.find((a) => a.slug === s.articleSlug) : null
 const others = serviceDetails.filter((o) => o.slug !== s.slug)
-const topic = { 'shopware-plugin-entwicklung': 'plugin', 'shopware-storefront': 'storefront', 'shopware-schnittstellen': 'integration', 'shopware-wartung': 'wartung' }[s.slug]
+const topic = { 'shopware-plugin-entwicklung': 'plugin', 'shopware-storefront': 'storefront', 'shopware-update': 'update', 'shopware-schnittstellen': 'integration', 'shopware-wartung': 'wartung' }[s.slug]
 const jsonLd = graph(
   {
     '@type': 'Service', '@id': `${url}#service`, name: s.nav, serviceType: s.metaTitle.split('|')[0].trim(), description: s.metaDescription, url,

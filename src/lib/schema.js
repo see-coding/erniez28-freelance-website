@@ -11,7 +11,7 @@ export const person = {
   jobTitle: 'Freelance Shopware 6 Entwickler',
   address: { '@type': 'PostalAddress', addressLocality: 'Hagen', addressRegion: 'NRW', addressCountry: 'DE' },
   knowsLanguage: ['de', 'en'],
-  knowsAbout: ['Shopware 6', 'Shopware-Plugin-Entwicklung', 'Shopware Storefront und Themes', 'Shopware-Updates und Migration auf 6.7', 'Shopware-Schnittstellen und API-Anbindungen', 'PHP', 'Symfony', 'Twig', 'Vue.js', 'E-Commerce', 'Shop-Wartung', 'IT-Sicherheit'],
+  knowsAbout: ['Shopware 6', 'Shopware-Plugin-Entwicklung', 'Shopware Storefront und Themes', 'Shopware-Update und Migration auf 6.7', 'Shopware-Support', 'Shopware-Schnittstellen und API-Anbindungen', 'PHP', 'Symfony', 'Twig', 'Vue.js', 'E-Commerce', 'Shop-Wartung', 'IT-Sicherheit'],
   hasCredential: [
     { '@type': 'EducationalOccupationalCredential', name: 'Google Cybersecurity Professional Certificate', credentialCategory: 'certificate', url: 'https://coursera.org/verify/professional-cert/HCHP1KRB0IHY' },
     { '@type': 'EducationalOccupationalCredential', name: 'Google IT Support Professional Certificate', credentialCategory: 'certificate', url: 'https://coursera.org/verify/professional-cert/N65BH8UF9K73' },
@@ -35,9 +35,10 @@ export const service = {
     '@type': 'OfferCatalog', name: 'Shopware-Leistungen',
     itemListElement: [
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Shopware-Plugin-Entwicklung' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Shopware-Storefront, Themes und Updates' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Shopware-Storefront und Theme-Entwicklung' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Shopware-Update und Migration' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Shopware-Schnittstellen und Integrationen' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Shopware-Wartung und Notfall-Hilfe' }, priceSpecification: { '@type': 'UnitPriceSpecification', price: 150, priceCurrency: 'EUR', unitText: 'Monat', description: 'ab 150 € im Monat' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Shopware-Wartung, Support und Notfall-Hilfe' }, priceSpecification: { '@type': 'UnitPriceSpecification', price: 150, priceCurrency: 'EUR', unitText: 'Monat', description: 'ab 150 € im Monat' } },
     ],
   },
 }

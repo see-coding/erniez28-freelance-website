@@ -3,8 +3,8 @@ import Site from '../layouts/Site.astro'
 import Home from '../components/home/Home.astro'
 import { person, service, website, faqPage, graph } from '../lib/schema.js'
 
-const title = 'Shopware Freelancer & Shopware 6 Entwickler | Sascha Ernst · erniez28'
-const description = 'Freelance Shopware 6 Entwickler für Agenturen und Shopbetreiber: Plugins, Storefront, Updates auf 6.7, Schnittstellen, Wartung und Notfall-Hilfe. 10+ Jahre E-Commerce, remote im DACH-Raum.'
+const title = 'Shopware Freelancer & Entwickler | Sascha Ernst · erniez28'
+const description = 'Freelance Shopware-Entwickler und Programmierer für Agenturen und Shops: Plugins, Themes, Updates auf 6.7, Schnittstellen, Wartung und Support. 10+ Jahre E-Commerce, remote im DACH-Raum.'
 ---
 <Site title={title} description={description} loader={true} jsonLd={graph(website, person, service, faqPage)}>
   <Home />

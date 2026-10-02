@@ -5,6 +5,7 @@ const initialTopics = {
   storefront: 'Storefront oder Theme',
   integration: 'Schnittstelle / Integration',
   wartung: 'Wartung / Notfall-Hilfe',
+  update: 'Fehleranalyse / Update',
 }
 const options = ['Individuelles Plugin', 'Storefront oder Theme', 'Schnittstelle / Integration', 'Wartung / Notfall-Hilfe', 'Fehleranalyse / Update', 'Noch nicht sicher']
 const audienceOptions = ['Für eine Agentur', 'Für meinen Shop', 'Anderer Kontext']

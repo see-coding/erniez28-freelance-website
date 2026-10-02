@@ -11,6 +11,10 @@ AddDefaultCharset utf-8
     RewriteEngine On
     RewriteBase /
 
+    # www.erniez28.de → https://erniez28.de (eine Adresse für Google, Pfad bleibt erhalten)
+    RewriteCond %{HTTP_HOST} ^www\.erniez28\.de$ [NC]
+    RewriteRule ^(.*)$ https://erniez28.de/$1 [R=301,L]
+
     # /vq-link (mit oder ohne Slash) → statische QR-Seite
     RewriteRule ^vq-link/?$ /vq-link/index.html [L,NC]
 </IfModule>

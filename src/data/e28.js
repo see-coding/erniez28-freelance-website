@@ -25,10 +25,16 @@ export const services = [
     cmd: 'bin/console plugin:create ErniezFeature', href: '/leistungen/shopware-plugin-entwicklung/',
   },
   {
-    id: 'storefront', glyph: '</>', title: 'Storefront & Updates',
-    text: 'Themes mit Twig, SCSS und eigenen JS-Plugins. Und wenn ein Update auf 6.7 plötzlich Templates bricht, finde ich den Block, der sich verschoben hat.',
-    chips: ['Twig 3', 'SCSS / BEM', 'JS-Plugins', '6.6 → 6.7'],
+    id: 'storefront', glyph: '</>', title: 'Storefront & Themes',
+    text: 'Themes mit Twig, SCSS und eigenen JS-Plugins. Sauber vererbt statt kopiert, damit das nächste Update keine Templates bricht.',
+    chips: ['Twig 3', 'SCSS / BEM', 'JS-Plugins', 'Barrierearm'],
     cmd: 'bin/console theme:compile', href: '/leistungen/shopware-storefront/',
+  },
+  {
+    id: 'update', glyph: '↑', title: 'Update & Migration',
+    text: 'Update auf Shopware 6.7 mit Testumgebung und Rückweg. Und wenn ein Update schon schiefgegangen ist, hole ich den Shop aus Wartungsmodus und 500er zurück.',
+    chips: ['6.5 / 6.6 → 6.7', 'Plugin-Check', 'Theme-Check', 'Shopware 5 → 6'],
+    cmd: 'bin/console system:update:prepare', href: '/leistungen/shopware-update/',
   },
   {
     id: 'schnittstellen', glyph: '⇄', title: 'Schnittstellen',
@@ -37,10 +43,10 @@ export const services = [
     cmd: 'curl -X POST /api/_action/sync', href: '/leistungen/shopware-schnittstellen/',
   },
   {
-    id: 'wartung', glyph: '↻', title: 'Wartung & Notfall-Hilfe',
-    text: 'Updates, Backups, Monitoring und Security-Checks. Und wenn nach einem Update nur noch Wartungsmodus oder 500er kommt, hole ich den Shop zurück. Wartung ab 150 € im Monat.',
-    chips: ['Updates', 'Monitoring', 'CVE-Checks', 'Recovery'],
-    cmd: 'bin/console system:update:finish', href: '/leistungen/shopware-wartung/',
+    id: 'wartung', glyph: '↻', title: 'Wartung & Support',
+    text: 'Updates, Backups, Monitoring, Security-Checks und Performance. Ein fester Ansprechpartner mit Reaktionszeit, auch wenn es brennt. Ab 150 € im Monat.',
+    chips: ['Updates', 'Monitoring', 'CVE-Checks', 'Performance'],
+    cmd: 'composer audit --locked', href: '/leistungen/shopware-wartung/',
   },
 ]
 
@@ -156,6 +162,7 @@ export const process = [
 ]
 
 export const faq = [
+  { q: 'Shopware-Agentur oder Freelancer: Was passt besser?', a: 'Eine Agentur lohnt sich, wenn Du Design, Marketing, Entwicklung und Projektleitung aus einer Hand brauchst. Geht es um Entwicklung, also ein Plugin, ein Update oder eine Schnittstelle, bist Du mit einem Freelancer oft schneller und günstiger, weil Du direkt mit dem sprichst, der den Code schreibt. Und wenn Du selbst eine Agentur bist, verstärke ich Dein Team.' },
   { q: 'Arbeitest Du auch als Subunternehmer für Agenturen?', a: 'Ja. Ich arbeite mich in Euren Workflow ein, nutze Eure Repos und Tickets und trete auf Wunsch unter Eurem Namen auf. Deine Kunden bleiben Deine Kunden.' },
   { q: 'Mit welchen Shopware-Versionen arbeitest Du?', a: 'Schwerpunkt ist Shopware 6 bis zur aktuellen Version 6.7. Erfahrung mit Shopware 5 habe ich auch, ebenso mit Magento, Shopify und WooCommerce.' },
   { q: 'Was kostet eine Zusammenarbeit?', a: 'Das hängt vom Projekt ab. Nach dem Erstgespräch bekommst Du eine Einschätzung und ein Angebot nach Aufwand oder zum Festpreis. Wartungspakete beginnen bei 150 € im Monat.' },

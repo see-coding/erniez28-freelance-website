@@ -208,6 +208,7 @@ html.booting .loader.is-done { clip-path: inset(0 0 100% 0); }
 
 /* Leistungen */
 .services { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.services > .card:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .card {
   --mx: 50%; --my: 50%;
   position: relative; border-radius: var(--radius); background: var(--bg-card); padding: 1px; isolation: isolate; overflow: hidden;

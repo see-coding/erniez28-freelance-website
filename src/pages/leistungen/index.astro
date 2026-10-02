@@ -6,15 +6,15 @@ import { serviceDetails } from '../../data/pages.js'
 import { process, services } from '../../data/e28.js'
 import { service, graph } from '../../lib/schema.js'
 
-const title = 'Shopware-Leistungen: Plugins, Storefront, Schnittstellen, Wartung | Sascha Ernst'
-const description = 'Was ich als Freelance Shopware 6 Entwickler übernehme: Plugin-Entwicklung, Storefront und Updates auf 6.7, Schnittstellen sowie Wartung und Notfall-Hilfe. Für Agenturen und Shopbetreiber im DACH-Raum.'
+const title = 'Shopware-Entwicklung: Plugins, Themes, Updates & Support | Sascha Ernst'
+const description = 'Shopware-Entwicklung vom Freelancer: Plugin-Entwicklung, Themes, Updates und Migration auf 6.7, Schnittstellen über die Shopware API sowie Wartung und Support. Für Agenturen und Shopbetreiber im DACH-Raum.'
 const jsonLd = graph(service, { '@type': 'BreadcrumbList', itemListElement: [
   { '@type': 'ListItem', position: 1, name: 'Startseite', item: 'https://erniez28.de/' },
   { '@type': 'ListItem', position: 2, name: 'Leistungen', item: 'https://erniez28.de/leistungen/' },
 ] })
 ---
 <Site title={title} description={description} jsonLd={jsonLd} current="leistungen">
-  <PageHero crumbs={[{ label: 'leistungen' }]} title="Vier Dinge," titleEm="die ich richtig gut kann." lede="Ich bin kein Generalist, der alles ein bisschen macht. Ich entwickle Shopware 6: Plugins, Storefronts, Schnittstellen und den Betrieb danach. Für Agenturen als Verstärkung, für Shopbetreiber direkt." />
+  <PageHero crumbs={[{ label: 'leistungen' }]} title="Fünf Dinge," titleEm="die ich richtig gut kann." lede="Ich bin kein Generalist, der alles ein bisschen macht. Ich entwickle Shopware 6: Plugins, Themes, Updates, Schnittstellen und den Betrieb danach. Für Agenturen als Verstärkung, für Shopbetreiber direkt." />
 
   <section class="section">
     <div class="shell">
